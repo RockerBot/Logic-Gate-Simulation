@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.bacgrnd{
+  background-image: url("./../res/grid.png");
+  position: fixed;
+  top:0;
+  min-width: 100vw;
+  min-height: 100vw;
+  background-repeat: repeat;
+  z-index: -100;
+}
