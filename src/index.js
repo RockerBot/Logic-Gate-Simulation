@@ -4,14 +4,24 @@ import './css/index.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GateOptions from './components/Gate_options';
+import GateSpace from './components/Gate_space';
+import TopNav from './components/Top_nav';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-var elems = ["NOT", "AND", "OR", "XOR"];
+var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SR Flip Flop", "D Flip Flop", "JK Flip Flop", "T Flip Flop"];
+var global_info = {
+  "AND":{
+    in:2,
+    out:1,
+  }
+};
 root.render(
   <React.StrictMode>
     <div className='bacgrnd' />
     {/* <App/> */}
+    <TopNav />
     <GateOptions side="right" elems={elems}/>
+    <GateSpace />
   </React.StrictMode>
 );
 

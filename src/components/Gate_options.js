@@ -9,8 +9,11 @@ export class GateOptions extends Component {
   }
   render() {
     return (<div className={"preview ".concat((this.side==='right')?"stick_right":"stcik_left")}>
+    {/* return (<div className={"preview"}> */}
       <h3>GateOptions</h3>
-      {this.elems.map(val =><GatePreview key={val} logicType={val}/>)};
+      <div className='preview_gate_container'>
+      {this.elems.map(val =><GatePreview key={val} logicType={val}/>)}
+      </div>
     </div>)
   }
 }
@@ -24,11 +27,11 @@ class GatePreview extends Component {
   }
   render() {
     return (<div className='preview_gate'>
-      <img width="100%" height="100%"
+      <img width="200" height="100"
         src={require(`../res/${this.state.logic_type}.png`)}
-        alt={this.state.logic_type}        
+        alt={this.state.logic_type}
+        
       />
-      <hr />
       {this.state.logic_type}
     </div>)
   }
