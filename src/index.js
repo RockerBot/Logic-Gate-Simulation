@@ -19,9 +19,10 @@ var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SR Fli
 root.render(
   <React.StrictMode>
     <div className='bacgrnd' />
-    <TopNav />
-    <GateOptions side="right" elems={elems}/>
-    <GateSpace />
+    <TopNav />    
+    <GateSpace>
+      <GateOptions side="right" elems={elems}/>
+    </GateSpace>
   </React.StrictMode>
 );
 

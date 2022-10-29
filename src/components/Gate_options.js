@@ -12,8 +12,8 @@ export class GateOptions extends Component {
     return (<div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")}>
     {/* return (<div className={"preview"}> */}
       <h3>GateOptions</h3>
-      <div className='preview_gate_container'>
-      {this.elems.map(val =><GatePreview key={val} logicType={val}/>)}
+      <div className='GatePreview_container'>
+      {this.elems.map(val =><GatePreview key={val} logicType={val} parent={this.props.parent}/>)}
       </div>
     </div>)
   }
@@ -24,10 +24,19 @@ class GatePreview extends Component {
     super(props);
     this.state = {
       logic_type: props.logicType,
+      parent: props.parent,
+      selected: false,
     };
+    this.setSelect = this.setSelect.bind(this);
+  }
+  setSelect(e){
+    if(this.state.parent.state.selected!==null)
+      this.state.parent.state.selected.setState({selected: false});
+    this.state.parent.setState({selected: this});
+    this.setState({selected: true});
   }
   render() {
-    return (<div className='preview_gate'>
+    return (<div className={`GatePreview ${this.state.selected?"selected":""}`} onClick={this.setSelect}>
       <img width="200" height="100"
         src={require(`../res/${this.state.logic_type}.png`)}
         alt={this.state.logic_type}        

@@ -1,27 +1,26 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
-var ID = 0;
+
 export class Gate extends Component {
     constructor(props){
         super(props);
-        ID+=1;
         this.state = {
             logic_type: props.logicType,
             parent: props.parent,
-            id:ID,
-            x:props.x,
-            y:props.y,
-            dx:0,
-            dy:0,
+            id: props.id,
+            x: props.x,
+            y: props.y,
+            dx: 0,
+            dy: 0,
             dragging: false,
-            in:[],
-            out:[],
-            calc:this.calc.bind(this),
+            in: [],
+            out: [],
+            calc: this.calc.bind(this),
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
-        console.log(ID,this.state.id, );
+        console.log(this.state.id, this.state.logic_type);
     }
     calc(){
         var outList = [];
@@ -88,21 +87,17 @@ export class Gate extends Component {
 
     render() {
         var style = {
-            // backgroundColor: "brown",
-            position: "absolute",
-            WebkitUserSelect: "none", /* Safari */
-            MsUserSelect: "none", /* IE 10 and IE 11 */
-            userSelect: "none", /* Standard syntax */
             left: this.state.x,
             top: this.state.y,
         }
         
         return (
-            <div className='gate' style={style} 
+            <div className='Gate' style={style} 
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
-            onMouseUp={this.dragEnd}>
-                <img width="100" height="50"
+            onMouseUp={this.dragEnd}
+            >
+                <img width="150" height="75"
                 src={require(`../res/${this.state.logic_type}.png`)}
                 alt={this.state.logic_type}/>
             </div>
