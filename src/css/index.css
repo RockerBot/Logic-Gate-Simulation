@@ -13,7 +13,9 @@ code {
 }
 
 .bacgrnd{
-  background-image: url("./../res/grid.png");
+  /* background-image: url("./../res/grid.png"); */
+  background-image: radial-gradient(rgb(10, 146, 121) 0.8px, transparent 0px);
+  background-size: 20px 20px;
   position: fixed;
   top:0;
   min-width: 100vw;

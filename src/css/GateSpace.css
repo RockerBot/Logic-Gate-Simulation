@@ -1,0 +1,14 @@
+.Space{
+    width: 100vw;
+    height: 100vw;
+    /* background-color: rgb(0, 255, 132); */
+    position: fixed;
+    /* z-index: 200; */
+}
+.gate{
+    /* background-color: rgb(255, 0, 0); */
+    
+}
+img{
+    pointer-events: none
+}
