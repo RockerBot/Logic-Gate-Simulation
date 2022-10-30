@@ -1,4 +1,8 @@
 .Connector{
-    position: absolute;
-    background-color: blue;
+    position: absolute;}
+.cin{
+    /* background-color: blue; */
+}
+.cout{
+    /* background-color: rgb(255, 0, 174); */
 }

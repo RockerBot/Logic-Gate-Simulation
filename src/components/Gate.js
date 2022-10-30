@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
-import Connector from './Connector';
-import { CNT_IN_POS, NAME } from "../Constants";
+import { ConnectorIn, ConnectorOut } from './Connector';
+import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM } from "../Constants";
 
 export class Gate extends Component {
     constructor(props){
@@ -68,10 +68,15 @@ export class Gate extends Component {
     }
 
     dragStart(e){
+        var dx = e.clientX - e.currentTarget.getBoundingClientRect().left;
+        var dy = e.clientY - e.currentTarget.getBoundingClientRect().top;
+        var dxx = e.currentTarget.getBoundingClientRect().right-e.clientX;
+        var dyy = e.currentTarget.getBoundingClientRect().bottom-e.clientY;
+        if(dy<=25||dyy<=25||dx<=25||dxx<=25)return;
         this.setState({
             dragging: true,
-            dx: e.clientX - e.currentTarget.getBoundingClientRect().left,
-            dy: e.clientY - e.currentTarget.getBoundingClientRect().top,
+            dx: dx,
+            dy: dy,
         });
     }
     dragMid(e){
@@ -92,27 +97,21 @@ export class Gate extends Component {
             left: this.state.x,
             top: this.state.y,
         }
-        // var cnctns = [];
-        // var index = 0;
-        // for(const l_type in CNT_IN_POS[this.state.logic_type]){
-        //     console.log(l_type);
-        //     cnctns.push(<Connector io={true} x={l_type.x} y={l_type.y} key={index++}/>);
-        // }
-        // console.log(CNT_IN_POS[this.state.logic_type].map((l_type, i)=>l_type.y))
         return (
             <div className='Gate' style={style} 
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
             onMouseUp={this.dragEnd}
             >
-                <img width="150" height="75"
+                <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
                 src={require(`../res/${NAME[this.state.logic_type]}.png`)}
                 alt={NAME[this.state.logic_type]}/>
-                {
-                    CNT_IN_POS[this.state.logic_type].map(
-                        (l_type, i)=><Connector io={true} x={l_type.x} y={l_type.y} key={i}/>
-                    )
-                }                
+                {CNT_IN_POS[this.state.logic_type].map(
+                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i}/>
+                )}                
+                {CNT_OUT_POS[this.state.logic_type].map(
+                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i}/>
+                )}                
             </div>
         )
     }
