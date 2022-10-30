@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "../css/GateOptions.css"
+import { NAME } from '../Constants';
 // import Draggable from 'react-draggable'
 
 export class GateOptions extends Component {
@@ -38,10 +39,10 @@ class GatePreview extends Component {
   render() {
     return (<div className={`GatePreview ${this.state.selected?"selected":""}`} onClick={this.setSelect}>
       <img width="200" height="100"
-        src={require(`../res/${this.state.logic_type}.png`)}
-        alt={this.state.logic_type}        
+        src={require(`../res/${NAME[this.state.logic_type]}.png`)}
+        alt={NAME[this.state.logic_type]}        
       />
-      {this.state.logic_type}
+      {NAME[this.state.logic_type]}
     </div>)
   }
 }

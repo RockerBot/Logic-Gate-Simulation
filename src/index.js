@@ -8,7 +8,7 @@ import GateSpace from './components/Gate_space';
 import TopNav from './components/Top_nav';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SR Flip Flop", "D Flip Flop", "JK Flip Flop", "T Flip Flop"];
+var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SRFF", "DFF", "JKFF", "TFF"];
 // var global_info = {
 //   "AND":{
 //     in:2,

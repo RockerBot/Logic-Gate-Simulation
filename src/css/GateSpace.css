@@ -10,8 +10,7 @@
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
-    /* background-color: rgb(255, 0, 0); */
-    
+    /* background-color: rgb(255, 0, 0); */    
 }
 img{
     pointer-events: none
