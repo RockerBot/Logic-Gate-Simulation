@@ -15,6 +15,7 @@ export class Gate extends Component {
             dx: 0,
             dy: 0,
             dragging: false,
+            // dragErr: false,
             in: [],
             out: [],
             calc: this.calc.bind(this),
@@ -22,7 +23,10 @@ export class Gate extends Component {
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
-        console.log(this.state.id, this.state.logic_type);
+        // this.dragFail = this.dragFail.bind(this);
+        // this.dragFix = this.dragFix.bind(this);
+        this.deleteGate = this.deleteGate.bind(this);
+        // console.log(this.state.id, this.state.logic_type);
     }
     calc(){
         var outList = [];
@@ -73,8 +77,13 @@ export class Gate extends Component {
         var dxx = e.currentTarget.getBoundingClientRect().right-e.clientX;
         var dyy = e.currentTarget.getBoundingClientRect().bottom-e.clientY;
         if(dy<=25||dyy<=25||dx<=25||dxx<=25)return;
+        var z = this.state.parent.state.zdx;
+        z[z.indexOf(this.state.id)] = z[z.length-1];
+        z[z.length-1] = this.state.id;
+        this.state.parent.setState({zdx:z});
         this.setState({
             dragging: true,
+            // dragErr: false,
             dx: dx,
             dy: dy,
         });
@@ -89,28 +98,57 @@ export class Gate extends Component {
         });
     }
     dragEnd(e){
-        this.setState({ dragging: false });
+        this.setState({
+            dragging: false,
+            // dragErr: false,
+        });
     }
-
+    // dragFail(e){
+    //     if(!this.state.dragging)return;
+    //     var lft = e.clientX - this.state.dx;
+    //     var top = e.clientY - this.state.dy;
+    //     console.log("BINGO", lft, top);
+    //     this.setState({
+    //         x: lft,
+    //         y: top,
+    //         dragErr: true,
+    //     });
+    // }
+    // dragFix(e){
+    //     if(!this.state.dragging)return;
+    //     if(!this.state.dragErr)return;
+    //     this.setState({ dragErr: false });
+    // }
+    deleteGate(e){
+        if(!("which" in e && e.which ==3 || "button" in e &&e.button==2))return;
+        var gates = this.state.parent.state.gates;
+        delete gates[this.state.id];
+        this.state.parent.setState({gates: gates})
+        e.preventDefault();
+    }
     render() {
         var style = {
             left: this.state.x,
             top: this.state.y,
+            zIndex: this.state.parent.state.zdx.indexOf(this.state.id),
         }
         return (
-            <div className='Gate' style={style} 
+            <div className='Gate' style={style}
+            onMouseLeave={this.dragFail}
+            onMouseEnter={this.dragFix}
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
             onMouseUp={this.dragEnd}
+            onContextMenu={this.deleteGate}
             >
                 <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
                 src={require(`../res/${NAME[this.state.logic_type]}.png`)}
                 alt={NAME[this.state.logic_type]}/>
                 {CNT_IN_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i}/>
+                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} gateSpace={this.state.parent}/>
                 )}                
                 {CNT_OUT_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i}/>
+                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} gateSpace={this.state.parent}/>
                 )}                
             </div>
         )
