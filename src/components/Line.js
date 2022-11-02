@@ -14,7 +14,7 @@ export class Line extends Component {
         y: props.to.y,
       },
       on: props.on,
-      in:props.in,
+      in: props.in,
       out:props.out,
       gateSpace: props.gateSpace,
       id: props.id,
@@ -25,17 +25,22 @@ export class Line extends Component {
       let gstln = this.state.gateSpace.state.ghostLine;
       gstln["ln"] = this;
       this.state.gateSpace.setState({ghostLine: gstln});
+    }else{
+      var outlns = this.state.in.state.lines;
+      outlns[this.state.id] = this;
+      this.state.in.setState({lines: outlns});
+      this.state.out.setState({line: this});
     }
   }
   render() {
     var width = Math.abs(this.state.frm.x - this.state.to.x);
     var height = Math.abs(this.state.frm.y - this.state.to.y);
     var isDownward = (this.state.frm.y<this.state.to.y);
-    console.log(
-      {width:width, height:height},
-      {x:this.state.frm.x, y:this.state.frm.y},
-      {x:this.state.to.x, y:this.state.to.y}
-    );
+    // console.log(
+    //   {width:width, height:height},
+    //   {x:this.state.frm.x, y:this.state.frm.y},
+    //   {x:this.state.to.x, y:this.state.to.y}
+    // );
     return (
       <div style={{width:width, height:height+7, left:this.state.frm.x, top:(isDownward?this.state.frm.y:this.state.to.y)-3.5}}className='Line'>
         <svg

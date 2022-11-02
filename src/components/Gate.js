@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
-import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM } from "../Constants";
+import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR } from "../Constants";
 
 export class Gate extends Component {
     constructor(props){
@@ -18,6 +18,8 @@ export class Gate extends Component {
             // dragErr: false,
             in: [],
             out: [],
+            cntIn: {},
+            cntOut: {},
             calc: this.calc.bind(this),
         };
         this.dragStart = this.dragStart.bind(this);
@@ -96,6 +98,24 @@ export class Gate extends Component {
             x: lft,
             y: top,
         });
+        for (let i in this.state.cntIn){
+            if(this.state.cntIn[i].state.line)
+                this.state.cntIn[i].state.line.setState({to:{
+                    x:lft, 
+                    y:top+CNT_IN_POS[this.state.logic_type][i].y+CONNECTOR.h/2
+                }});
+        }
+        for (let inNode in this.state.cntOut){
+            var lines = this.state.cntOut[inNode].state.lines;
+            console.log(lines)
+            if(!lines)continue;
+            for (let lneNo in lines){
+                lines[lneNo].setState({frm:{
+                    x:lft+DIM[this.state.logic_type].w,
+                    y:top+CNT_OUT_POS[this.state.logic_type][inNode].y+CONNECTOR.h/2
+                }});
+            }
+        }
     }
     dragEnd(e){
         this.setState({
@@ -145,10 +165,10 @@ export class Gate extends Component {
                 src={require(`../res/${NAME[this.state.logic_type]}.png`)}
                 alt={NAME[this.state.logic_type]}/>
                 {CNT_IN_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} gateSpace={this.state.parent}/>
+                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
                 )}                
                 {CNT_OUT_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} gateSpace={this.state.parent}/>
+                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
                 )}                
             </div>
         )

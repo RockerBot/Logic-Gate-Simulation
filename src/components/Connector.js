@@ -9,8 +9,15 @@ export class ConnectorIn extends Component {
       y: props.y,
       gate: props.gate,
       gateSpace: props.gateSpace,
+      line: null,
     }
     this.createLine = this.createLine.bind(this);
+  }
+  componentDidMount() {
+    var gate = this.state.gate;
+    var cnt = gate.state.cntIn;
+    cnt[this.props.id] = this;
+    gate.setState({cntIn:cnt})
   }
   createLine(e){
     if(!("which" in e && e.which ==1 || "button" in e &&e.button==0))return;
@@ -36,8 +43,15 @@ export class ConnectorOut extends Component {
       y: props.y,
       gate: props.gate,
       gateSpace: props.gateSpace,
+      lines: {},
     }
     this.createLine = this.createLine.bind(this);
+  }
+  componentDidMount() {
+    var gate = this.state.gate;
+    var cnt = gate.state.cntOut;
+    cnt[this.props.id] = this;
+    gate.setState({cntOut:cnt})
   }
   createLine(e){
     // console.log("test", e);

@@ -71,7 +71,6 @@ export class GateSpace extends Component {
             lines: lns,
             ghostLine: null
         });
-        console.log("WOOOOOOOOOOOOOO", this.state.lines);
     }
     drawLineCull(e){
         if(this.state.ghostLine === null)return;

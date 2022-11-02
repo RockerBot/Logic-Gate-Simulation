@@ -146,3 +146,7 @@ export const CNT_OUT_POS ={
         { x: 90, y: 65, }
     ]
 }
+export const CONNECTOR={
+    h:24,
+    w:24
+}
