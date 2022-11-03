@@ -8,5 +8,9 @@
 }
 .Line{
     position: absolute;
+    pointer-events: none;
     /* background-color: blueviolet; */
+}
+.Line>svg>path{
+    pointer-events: stroke;
 }
