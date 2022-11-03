@@ -31,6 +31,7 @@ export class Line extends Component {
       var outlns = this.state.in.state.lines;
       outlns[this.state.id] = this;
       this.state.in.setState({lines: outlns});
+      if(this.state.out.state.line!=null)this.state.out.state.line.deleteLine(this.state.out.state.gate.state.id)
       this.state.out.setState({line: this});
     }
   }
@@ -54,7 +55,7 @@ export class Line extends Component {
     this.state.out.setState({line:null});
     delete lines[this.state.id]
     this.state.gateSpace.setState({lines:lines});
-    e.preventDefault();
+    if(e)e.preventDefault();
   }
   render() {
     var width = Math.abs(this.state.frm.x - this.state.to.x);
