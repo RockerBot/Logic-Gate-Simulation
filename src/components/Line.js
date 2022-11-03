@@ -20,6 +20,7 @@ export class Line extends Component {
       id: props.id,
     }
     this.deleteLine = this.deleteLine.bind(this);
+    this.deleteLineOnly = this.deleteLineOnly.bind(this);
   }
   componentDidMount() {
     if(this.state.gateSpace.state.ghostLine !=null){
@@ -45,6 +46,16 @@ export class Line extends Component {
     delete lines[this.state.id]
     this.state.gateSpace.setState({lines:lines});
   }
+  deleteLineOnly(e){
+    var lines = this.state.gateSpace.state.lines;
+    var inlns = this.state.in.state.lines
+    delete inlns[this.state.id];
+    this.state.in.setState({lines:inlns});
+    this.state.out.setState({line:null});
+    delete lines[this.state.id]
+    this.state.gateSpace.setState({lines:lines});
+    e.preventDefault();
+  }
   render() {
     var width = Math.abs(this.state.frm.x - this.state.to.x);
     var height = Math.abs(this.state.frm.y - this.state.to.y);
@@ -56,7 +67,7 @@ export class Line extends Component {
     //   {x:this.state.to.x, y:this.state.to.y}
     // );
     return (
-      <div className='Line' style={{
+      <div className='Line' onContextMenu={this.deleteLineOnly} style={{
           width:width, 
           height:height+7, 
           left:(isRightward?this.state.frm.x:this.state.to.x), 
