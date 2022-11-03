@@ -19,6 +19,7 @@ export class Line extends Component {
       gateSpace: props.gateSpace,
       id: props.id,
     }
+    this.deleteLine = this.deleteLine.bind(this);
   }
   componentDidMount() {
     if(this.state.gateSpace.state.ghostLine !=null){
@@ -32,17 +33,35 @@ export class Line extends Component {
       this.state.out.setState({line: this});
     }
   }
+  deleteLine(gateId){
+    var lines = this.state.gateSpace.state.lines;
+    if(this.state.out.state.gate.state.id === gateId){
+      var inlns = this.state.in.state.lines
+      delete inlns[this.state.id];
+      this.state.in.setState({lines:inlns});
+    }else{
+      this.state.out.setState({line:null});
+    }
+    delete lines[this.state.id]
+    this.state.gateSpace.setState({lines:lines});
+  }
   render() {
     var width = Math.abs(this.state.frm.x - this.state.to.x);
     var height = Math.abs(this.state.frm.y - this.state.to.y);
     var isDownward = (this.state.frm.y<this.state.to.y);
+    var isRightward = (this.state.frm.x<this.state.to.x);
     // console.log(
     //   {width:width, height:height},
     //   {x:this.state.frm.x, y:this.state.frm.y},
     //   {x:this.state.to.x, y:this.state.to.y}
     // );
     return (
-      <div style={{width:width, height:height+7, left:this.state.frm.x, top:(isDownward?this.state.frm.y:this.state.to.y)-3.5}}className='Line'>
+      <div className='Line' style={{
+          width:width, 
+          height:height+7, 
+          left:(isRightward?this.state.frm.x:this.state.to.x), 
+          top:(isDownward?this.state.frm.y:this.state.to.y)-3.5
+        }}>
         <svg
         width={width} 
         height={height+7}>
@@ -52,10 +71,10 @@ export class Line extends Component {
           stroke={this.state.on?"cyan":"black"} 
           strokeWidth="5"
           d={`
-          M 0,${isDownward?3.5:height} 
+          M ${isRightward?0:width},${isDownward?3.5:height} 
           C ${width/2},${isDownward?3.5:height} 
           ${width/2},${isDownward?height:3.5} 
-          ${width},${isDownward?height:3.5}
+          ${isRightward?width:0},${isDownward?height:3.5}
           `} />
         </svg>
       </div>

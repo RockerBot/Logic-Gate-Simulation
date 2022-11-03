@@ -107,7 +107,6 @@ export class Gate extends Component {
         }
         for (let inNode in this.state.cntOut){
             var lines = this.state.cntOut[inNode].state.lines;
-            console.log(lines)
             if(!lines)continue;
             for (let lneNo in lines){
                 lines[lneNo].setState({frm:{
@@ -141,9 +140,22 @@ export class Gate extends Component {
     // }
     deleteGate(e){
         if(!("which" in e && e.which ==3 || "button" in e &&e.button==2))return;
-        var gates = this.state.parent.state.gates;
+        var gateSpace = this.state.parent
+        var gates = gateSpace.state.gates;
+
+        for (let i in this.state.cntIn){
+            if(this.state.cntIn[i].state.line)
+            this.state.cntIn[i].state.line.deleteLine(this.state.id);
+        }
+        for (let inNode in this.state.cntOut){
+            var lines = this.state.cntOut[inNode].state.lines;
+            if(!lines)continue;
+            for (let lneNo in lines)
+            lines[lneNo].deleteLine(this.state.id);
+        }
         delete gates[this.state.id];
-        this.state.parent.setState({gates: gates})
+        this.state.parent.setState({gates: gates});
+
         e.preventDefault();
     }
     render() {

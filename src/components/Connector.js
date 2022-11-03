@@ -54,9 +54,7 @@ export class ConnectorOut extends Component {
     gate.setState({cntOut:cnt})
   }
   createLine(e){
-    // console.log("test", e);
     if(!("which" in e && e.which ==1 || "button" in e &&e.button==0))return;
-    // console.log("YES");
     this.state.gateSpace.drawLineStart(e.clientX, e.clientY, this);
     e.preventDefault();
   }
