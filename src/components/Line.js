@@ -71,10 +71,10 @@ export class Line extends Component {
           stroke={this.state.on?"cyan":"black"} 
           strokeWidth="5"
           d={`
-          M ${isRightward?0:width},${isDownward?3.5:height} 
-          C ${width/2},${isDownward?3.5:height} 
-          ${width/2},${isDownward?height:3.5} 
-          ${isRightward?width:0},${isDownward?height:3.5}
+            M ${isRightward?0:width},${isDownward?3.5:height} 
+            C ${width/2},${isDownward?3.5:height} 
+            ${width/2},${isDownward?height:3.5} 
+            ${isRightward?width:0},${isDownward?height:3.5}
           `} />
         </svg>
       </div>
