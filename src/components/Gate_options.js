@@ -10,8 +10,7 @@ export class GateOptions extends Component {
     this.elems = this.props.elems;
   }
   render() {
-    return (<div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")}>
-    {/* return (<div className={"preview"}> */}
+    return (<div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")} onClick={e=>e.stopPropagation()}>
       <h3>GateOptions</h3>
       <div className='GatePreview_container'>
         {this.elems.map(val =><GatePreview key={val} logicType={val} parent={this.props.parent}/>)}
@@ -35,10 +34,12 @@ class GatePreview extends Component {
       this.state.parent.state.selected.setState({selected: false});
     this.state.parent.setState({selected: this});
     this.setState({selected: true});
+    e.stopPropagation();
+    console.log("OOOOF")
   }
   render() {
     return (<div className={`GatePreview ${this.state.selected?"selected":""}`} onClick={this.setSelect}>
-      <img width={DIM[this.state.logic_type].w} height={100}
+      <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
         src={require(`../res/${NAME[this.state.logic_type]}.png`)}
         alt={NAME[this.state.logic_type]}        
       />

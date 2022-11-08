@@ -77,6 +77,7 @@ export const CNT_IN_POS ={
     BUFFER: [
         { x: -10, y: 30, },
     ],
+    SWITCH: [],
     LED: [
         { x: -10, y: 30, },
     ],
@@ -127,6 +128,7 @@ export const CNT_OUT_POS ={
     SWITCH: [
         { x: 140, y: 25, },
     ],
+    LED: [],
     SRFF: [
         { x: 140, y: 10, },
         { x: 140, y: 70, },
