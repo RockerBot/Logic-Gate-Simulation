@@ -30,16 +30,16 @@ export class Gate extends Component {
     }
     calc(){
         var outList = [];
-        if(this.state.logic_type==="AND")outList.push(this.state.in[0] && this.state.in[1]);
-        else if(this.state.logic_type==="NAND")outList.push(!(this.state.in[0] && this.state.in[1]));
-        else if(this.state.logic_type==="OR")outList.push(this.state.in[0] || this.state.in[1]);
-        else if(this.state.logic_type==="NOR")outList.push(!(this.state.in[0] || this.state.in[1]));
-        else if(this.state.logic_type==="XOR")outList.push(this.state.in[0] ^ this.state.in[1]);
-        else if(this.state.logic_type==="XNOR")outList.push(!(this.state.in[0] ^ this.state.in[1]));
-        else if(this.state.logic_type==="NOT")outList.push(!this.state.in[0]);
-        else if(this.state.logic_type==="BUFFER")outList.push(this.state.in[0]);
-        else if(this.state.logic_type==="SWITCH")outList.push(this.state.on);
-        else if(this.state.logic_type==="SR Flip Flop"){
+        if(this.state.logic_type===GTYPE.AND)outList.push(this.state.in[0] && this.state.in[1]);
+        else if(this.state.logic_type===GTYPE.NAND)outList.push(!(this.state.in[0] && this.state.in[1]));
+        else if(this.state.logic_type===GTYPE.OR)outList.push(this.state.in[0] || this.state.in[1]);
+        else if(this.state.logic_type===GTYPE.NOR)outList.push(!(this.state.in[0] || this.state.in[1]));
+        else if(this.state.logic_type===GTYPE.XOR)outList.push(this.state.in[0] ^ this.state.in[1]);
+        else if(this.state.logic_type===GTYPE.XNOR)outList.push(!(this.state.in[0] ^ this.state.in[1]));
+        else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
+        else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
+        else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
+        else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
                 (!this.state.in[3]&& this.state.out[0]) || 
@@ -47,21 +47,21 @@ export class Gate extends Component {
                 (!this.state.in[1]&&this.state.out[0])
             );
             outList.push(!this.state.out[0]);/// TODO calc
-        }else if(this.state.logic_type==="D Flip Flop"){
+        }else if(this.state.logic_type===GTYPE.DFF){
             //Q = !CLK&&Q||CLK&&D
             outList.push(
                 (!this.state.in[1]&&this.state.out[0])||
                 (this.state.in[1]&&this.state.in[0])
             );
             outList.push(!this.state.out[0]);
-        }else if(this.state.logic_type==="JK Flip Flop"){
+        }else if(this.state.logic_type===GTYPE.JKFF){
             //Q = !(K&&CLK)&&Q||CLK&&J&&!Q
             outList.push(
                 (!(this.state.in[1]&&this.state.in[3])&&this.state.out[0])||
                 (this.state.in[3]&&this.state.in[0]&&!this.state.out[0])
             );
             outList.push(!this.state.out[0]);
-        }else if(this.state.logic_type==="T Flip Flop"){
+        }else if(this.state.logic_type===GTYPE.TFF){
             //Q = !(T&&CLK)&&Q||CLK&&T&&!Q
             outList.push(
                 (!(this.state.in[0]&&this.state.in[1])&&this.state.out[0])||

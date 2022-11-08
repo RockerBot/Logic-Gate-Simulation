@@ -93,7 +93,6 @@ export class GateSpace extends Component {
             y: e.clientY, 
             k: this.uuid
         }
-        // gts.push(<Gate logicType={this.state.selected.state.logic_type} parent={this} x={e.clientX} y={e.clientY} key={this.uuid++} id={gts.length}/>);
         if(e.ctrlKey){
             this.setState({
                 gates: gts,
@@ -113,7 +112,7 @@ export class GateSpace extends Component {
         var lns = [];
         for (let i in this.state.gates)gts.push(this.state.gates[i])
         for (let i in this.state.lines)lns.push(this.state.lines[i])
-        
+
         return (<div className='Space' 
         onClick={this.createGate} 
         onMouseMove={this.drawLineMid}
