@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "../css/GateOptions.css"
-import { NAME, DIM } from '../Constants';
+import { NAME, DIM, GTYPE } from '../Constants';
 // import Draggable from 'react-draggable'
 
 export class GateOptions extends Component {
@@ -38,8 +38,10 @@ class GatePreview extends Component {
     console.log("OOOOF")
   }
   render() {
+    var fac = 1;
+    if(NAME[this.state.logic_type].indexOf('[')>-1)fac = 2;
     return (<div className={`GatePreview ${this.state.selected?"selected":""}`} onClick={this.setSelect}>
-      <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
+      <img width={DIM[this.state.logic_type].w*fac} height={DIM[this.state.logic_type].h*fac}
         src={require(`../res/${NAME[this.state.logic_type]}.png`)}
         alt={NAME[this.state.logic_type]}        
       />

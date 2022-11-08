@@ -23,7 +23,7 @@ export const NAME ={
     XNOR:   "XNOR",
     NOT:    "NOT",
     BUFFER: "BUFFER",
-    SWITCH: "SWITCH [OFF]",
+    SWITCH: "SWITCH [ON]",
     LED:    "LED [ON]",
     SRFF:   "SR Flip Flop",
     DFF:    "D Flip Flop",
@@ -39,8 +39,8 @@ export const DIM ={
     XNOR:   {w: 150, h: 75},
     NOT:    {w: 150, h: 75},
     BUFFER: {w: 150, h: 75},
-    SWITCH: {w: 100, h: 100},
-    LED:    {w: 100, h: 100},
+    SWITCH: {w: 50, h: 50},
+    LED:    {w: 50, h: 50},
     SRFF:   {w: 150, h: 100},
     DFF:    {w: 125, h: 100},
     JKFF:   {w: 120, h: 125},
@@ -79,7 +79,7 @@ export const CNT_IN_POS ={
     ],
     SWITCH: [],
     LED: [
-        { x: -10, y: 30, },
+        { x: -10, y: 15, },
     ],
     SRFF: [
         { x: -10, y: 10, },
@@ -126,7 +126,7 @@ export const CNT_OUT_POS ={
         { x: 140, y: 25, },
     ],
     SWITCH: [
-        { x: 140, y: 25, },
+        { x: 40, y: 15, },
     ],
     LED: [],
     SRFF: [
