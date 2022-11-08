@@ -166,8 +166,6 @@ export class Gate extends Component {
         }
         return (
             <div className='Gate' style={style}
-            onMouseLeave={this.dragFail}
-            onMouseEnter={this.dragFix}
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
             onMouseUp={this.dragEnd}
