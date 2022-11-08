@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
-import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR } from "../Constants";
+import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR, GTYPE } from "../Constants";
 
 export class Gate extends Component {
     constructor(props){
@@ -9,7 +9,7 @@ export class Gate extends Component {
         this.state = {
             logic_type: props.logicType,
             parent: props.parent,
-            on: true,
+            on: false,
             id: props.id,
             x: props.x,
             y: props.y,
@@ -26,6 +26,7 @@ export class Gate extends Component {
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
         this.deleteGate = this.deleteGate.bind(this);
+        this.toggleState = this.toggleState.bind(this);
     }
     calc(){
         var outList = [];
@@ -37,6 +38,7 @@ export class Gate extends Component {
         else if(this.state.logic_type==="XNOR")outList.push(!(this.state.in[0] ^ this.state.in[1]));
         else if(this.state.logic_type==="NOT")outList.push(!this.state.in[0]);
         else if(this.state.logic_type==="BUFFER")outList.push(this.state.in[0]);
+        else if(this.state.logic_type==="SWITCH")outList.push(this.state.on);
         else if(this.state.logic_type==="SR Flip Flop"){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
@@ -69,7 +71,9 @@ export class Gate extends Component {
         }
         this.setState({out:outList});
     }
-
+    toggleState(e){
+        if (this.state.logic_type === GTYPE.SWITCH)this.setState({on: !this.state.on});
+    }
     dragStart(e){
         var dx = e.clientX - e.currentTarget.getBoundingClientRect().left;
         var dy = e.clientY - e.currentTarget.getBoundingClientRect().top;
@@ -146,13 +150,14 @@ export class Gate extends Component {
             zIndex: this.state.parent.state.zdx.indexOf(this.state.id),
         }
         var imgName = NAME[this.state.logic_type];
-        if(!this.state.on)imgName.replace("ON", "OFF");
+        if(!this.state.on)imgName = imgName.replace("ON", "OFF");
         return (
             <div className='Gate' style={style}
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
             onMouseUp={this.dragEnd}
             onContextMenu={this.deleteGate}
+            onDoubleClick={this.toggleState}
             >
                 <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
                 src={require(`../res/${imgName}.png`)}

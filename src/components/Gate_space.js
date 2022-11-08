@@ -109,7 +109,6 @@ export class GateSpace extends Component {
         }
     }
     render() {
-        // console.log(this.state.gates);
         var gts = [];
         var lns = [];
         for (let i in this.state.gates)gts.push(this.state.gates[i])

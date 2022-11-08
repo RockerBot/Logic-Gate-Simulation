@@ -35,11 +35,10 @@ class GatePreview extends Component {
     this.state.parent.setState({selected: this});
     this.setState({selected: true});
     e.stopPropagation();
-    console.log("OOOOF")
   }
   render() {
     var fac = 1;
-    if(NAME[this.state.logic_type].indexOf('[')>-1)fac = 2;
+    if(this.state.logic_type===GTYPE.SWITCH || this.state.logic_type===GTYPE.LED)fac = 2;
     return (<div className={`GatePreview ${this.state.selected?"selected":""}`} onClick={this.setSelect}>
       <img width={DIM[this.state.logic_type].w*fac} height={DIM[this.state.logic_type].h*fac}
         src={require(`../res/${NAME[this.state.logic_type]}.png`)}

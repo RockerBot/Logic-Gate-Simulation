@@ -6,9 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import GateOptions from './components/Gate_options';
 import GateSpace from './components/Gate_space';
 import TopNav from './components/Top_nav';
+import { GTYPE } from './Constants';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SWITCH", "LED", "SRFF", "DFF", "JKFF", "TFF"];
+var elems = [];
+for(let i in GTYPE)elems.push(GTYPE[i]);
 root.render(
   <React.StrictMode>
     <div className='bacgrnd' />
