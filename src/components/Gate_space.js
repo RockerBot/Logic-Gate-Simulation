@@ -12,6 +12,7 @@ export class GateSpace extends Component {
             zdx: [],
             selected: null,
             ghostLine: null,
+            draggingGate: null,
         };
         this.createGate = this.createGate.bind(this);
         this.newUUID = this.newUUID.bind(this);
@@ -35,6 +36,10 @@ export class GateSpace extends Component {
         });
     }
     drawLineMid(e){
+        if(this.state.draggingGate !== null){
+            this.state.draggingGate.dragMid(e);
+            return;
+        }
         if(this.state.ghostLine === null)return;
         var ghstln = this.state.ghostLine;
         ghstln["to"] = {x:e.clientX, y:e.clientY};
@@ -49,8 +54,8 @@ export class GateSpace extends Component {
                 y: ghstln.to.y,
               },
               on: ghstln.on,
-              in:ghstln.in,
-              out:ghstln.out,
+              in: ghstln.in,
+              out: ghstln.out,
               gateSpace: ghstln.ln,
         });
     }

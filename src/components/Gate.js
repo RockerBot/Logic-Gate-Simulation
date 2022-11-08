@@ -82,10 +82,12 @@ export class Gate extends Component {
         var z = this.state.parent.state.zdx;
         z[z.indexOf(this.state.id)] = z[z.length-1];
         z[z.length-1] = this.state.id;
-        this.state.parent.setState({zdx:z});
+        this.state.parent.setState({
+            zdx:z,
+            draggingGate: this,
+        });
         this.setState({
             dragging: true,
-            // dragErr: false,
             dx: dx,
             dy: dy,
         });
@@ -117,10 +119,8 @@ export class Gate extends Component {
         }
     }
     dragEnd(e){
-        this.setState({
-            dragging: false,
-            // dragErr: false,
-        });
+        this.setState({dragging: false});
+        this.state.parent.setState({draggingGate: null});
     }
     // dragFail(e){
     //     if(!this.state.dragging)return;
