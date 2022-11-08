@@ -7,8 +7,8 @@ export const GTYPE ={
     XNOR:   "XNOR",
     NOT:    "NOT",
     BUFFER: "BUFFER",
-    // ON: "ON",/* TODO WIP */
-    // OFF: "OFF",/* TODO WIP */
+    SWITCH: "SWITCH [ON]",
+    LED:    "LED [ON]",
     SRFF:   "SRFF",
     DFF:    "DFF",
     JKFF:   "JKFF",
@@ -23,8 +23,8 @@ export const NAME ={
     XNOR:   "XNOR",
     NOT:    "NOT",
     BUFFER: "BUFFER",
-    ON:     "ON",/* TODO WIP */
-    OFF:    "OFF",/* TODO WIP */
+    SWITCH: "SWITCH [OFF]",
+    LED:    "LED [ON]",
     SRFF:   "SR Flip Flop",
     DFF:    "D Flip Flop",
     JKFF:   "JK Flip Flop",
@@ -39,8 +39,8 @@ export const DIM ={
     XNOR:   {w: 150, h: 75},
     NOT:    {w: 150, h: 75},
     BUFFER: {w: 150, h: 75},
-    ON:     {w: 150, h: 75},/* TODO WIP */
-    OFF:    {w: 150, h: 75},/* TODO WIP */
+    SWITCH: {w: 100, h: 100},
+    LED:    {w: 100, h: 100},
     SRFF:   {w: 150, h: 100},
     DFF:    {w: 125, h: 100},
     JKFF:   {w: 120, h: 125},
@@ -77,8 +77,9 @@ export const CNT_IN_POS ={
     BUFFER: [
         { x: -10, y: 30, },
     ],
-    ON: [],/* TODO WIP */
-    OFF: [],/* TODO WIP */
+    LED: [
+        { x: -10, y: 30, },
+    ],
     SRFF: [
         { x: -10, y: 10, },
         { x: -10, y: 70, },
@@ -123,12 +124,9 @@ export const CNT_OUT_POS ={
     BUFFER: [
         { x: 140, y: 25, },
     ],
-    ON: [
+    SWITCH: [
         { x: 140, y: 25, },
-    ],/* TODO WIP */
-    OFF: [
-        { x: 140, y: 25, },
-    ],/* TODO WIP */
+    ],
     SRFF: [
         { x: 140, y: 10, },
         { x: 140, y: 70, },

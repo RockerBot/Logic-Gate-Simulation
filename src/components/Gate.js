@@ -33,7 +33,7 @@ export class Gate extends Component {
     calc(){
         var outList = [];
         if(this.state.logic_type==="AND")outList.push(this.state.in[0] && this.state.in[1]);
-        else if(this.state.logic_type==="AND")outList.push(!(this.state.in[0] && this.state.in[1]));
+        else if(this.state.logic_type==="NAND")outList.push(!(this.state.in[0] && this.state.in[1]));
         else if(this.state.logic_type==="OR")outList.push(this.state.in[0] || this.state.in[1]);
         else if(this.state.logic_type==="NOR")outList.push(!(this.state.in[0] || this.state.in[1]));
         else if(this.state.logic_type==="XOR")outList.push(this.state.in[0] ^ this.state.in[1]);
@@ -139,7 +139,7 @@ export class Gate extends Component {
     //     this.setState({ dragErr: false });
     // }
     deleteGate(e){
-        if(!("which" in e && e.which ==3 || "button" in e &&e.button==2))return;
+        if(!(("which" in e && e.which === 3) || ("button" in e && e.button === 2)))return;
         var gateSpace = this.state.parent
         var gates = gateSpace.state.gates;
 

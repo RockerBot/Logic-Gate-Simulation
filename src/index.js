@@ -6,25 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import GateOptions from './components/Gate_options';
 import GateSpace from './components/Gate_space';
 import TopNav from './components/Top_nav';
-import Line from './components/Line';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SRFF", "DFF", "JKFF", "TFF"];
-// var global_info = {
-//   "AND":{
-//     in:2,
-//     out:1,
-//     calc: ()=>
-//   }
-// };
+var elems = ["AND", "NAND", "OR", "NOR", "XOR", "XNOR", "NOT", "BUFFER", "SWITCH", "LED", "SRFF", "DFF", "JKFF", "TFF"];
 root.render(
   <React.StrictMode>
     <div className='bacgrnd' />
     <TopNav />
     <GateSpace>
       <GateOptions side="right" elems={elems}/>
-      {/* <Line frm={{x:0, y:100}} to={{x:400, y:500}} on={true} dashes={false}/>
-      <Line frm={{x:0, y:310}} to={{x:270, y:200}} on={false} dashes={false}/> */}
     </GateSpace>
   </React.StrictMode>
 );
