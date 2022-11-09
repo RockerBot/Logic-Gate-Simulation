@@ -21,14 +21,15 @@
     height: 40px;
     
     position: fixed;
-    right: 40px;
-    top: 2px;
+    /* right: 40px; */
+    top: 0.4%;
+    left: 0.5%;
 
-    background-color: rgb(161, 193, 193);
+    /* background-color: rgb(161, 193, 193); */
 
     border-radius: 50%;
     border-style: outset;
-    border-color: rgb(42, 165, 155);
+    /* border-color: rgb(42, 165, 155); */
 
     display: grid;
     place-content: center;
