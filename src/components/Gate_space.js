@@ -8,6 +8,7 @@ export class GateSpace extends Component {
         super(props);
         this.state = {
             gates: {},
+            gateComps: {},
             lines: {},
             zdx: [],
             selected: null,

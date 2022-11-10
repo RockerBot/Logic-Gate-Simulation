@@ -28,6 +28,16 @@ export class Gate extends Component {
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
     }
+    componentDidMount(){
+        var gtcs = this.state.parent.gateComps;
+        gtcs[this.id] = this;
+        this.state.parent.setState({gateComps: gtcs});
+    }
+    componentWillUnmount(){
+        var gtcs = this.state.parent.gateComps;
+        delete gtcs[this.id];
+        this.state.parent.setState({gateComps: gtcs});
+    }
     calc(){
         var outList = [];
         if(this.state.logic_type===GTYPE.AND)outList.push(this.state.in[0] && this.state.in[1]);
