@@ -1,7 +1,11 @@
-### `npx create-react-app my-app
+# Code to create the base app with dependancies
+
+```
+npx create-react-app logic-gate-simulation
 cd my-app
 npm install react-router-dom@6
-npm start`
+npm start
+```
 
 
 # Getting Started with Create React App
