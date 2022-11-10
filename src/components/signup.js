@@ -13,11 +13,11 @@ const Form=()=>{
     const[dataInput,setDataInput]=useState("");
     return(
         
-        <div class="page">
-            <div id="navbar"><h1>Logic Gate Simulator</h1></div>
+        <div className={"page"}>
+            {/* <div id="navbar"><h1>Logic Gate Simulator</h1></div> */}
             <br></br><br></br><br></br>
             <center>
-                <fieldset class="fieldset">
+                <fieldset className={"fieldset"}>
                 <center><h1 id="heading">Sign Up</h1></center>
                     <form action="">
                         <div id="info">

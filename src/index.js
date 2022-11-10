@@ -13,11 +13,13 @@ var elems = [];
 for(let i in GTYPE)elems.push(GTYPE[i]);
 root.render(
   <React.StrictMode>
-    <div className='bacgrnd' />
-    <TopNav />
-    <GateSpace>
-      <GateOptions side="right" elems={elems}/>
-    </GateSpace>
+    <TopNav>
+      <div className='bacgrnd' />
+      <GateSpace>
+        <GateOptions side="right" elems={elems}/>
+      </GateSpace>
+    </TopNav>
+    
   </React.StrictMode>
 );
 

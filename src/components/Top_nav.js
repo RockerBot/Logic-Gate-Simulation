@@ -1,39 +1,37 @@
-// import React, { Component } from 'react'
-// import "../css/TopNav.css"
-// import Form from './signup'
-// import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-
-
-// export class TopNav extends Component {
-//   render() {
-//     return (<div className='top_nav'>
-//         {/* <div ><a href='https://www.google.com/'> */}
-//         <BrowserRouter>
-//           <Link to={"/signup"}><img width="30px" height="30px" src={require("../res/Person.png")}/></Link>
-      
-//               <Routes>
-//                 <Route exact path='/signup' element={<Form/>}></Route>
-//               </Routes>
-//         </BrowserRouter>
-
-            
-//     </div>)
-//   }
-// }
-
-// export default TopNav
 
 
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import "../css/TopNav.css"
+import Form from './signup'
 
 export class TopNav extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      signin:false
+    }    
+  }
   render() {
-    return (<div className='top_nav'>
-        <div >
-          <a href='https://www.google.com/'><img width="30px" height="30px" src={require("../res/Person.png")}/></a>
-          </div>
-    </div>)
+    var elem
+    if (this.state.signin)
+      elem =<Link to="/" onClick={()=>this.setState({signin:false})}>
+              <img width="30px" height="30px" src={require("../res/Person.png")}/>
+            </Link>
+    else
+      elem =<Link to="/signin" onClick={()=>this.setState({signin:true})}>
+                <img width="30px" height="30px" src={require("../res/Person.png")}/>
+            </Link>
+
+    return (<Router>
+		<div className='top_nav'>
+        {elem}
+		</div>
+		<Routes>
+				<Route exact path='/' element={this.props.children}></Route>
+				<Route exact path='/signin' element={<Form />}></Route>
+		</Routes>
+	</Router>)
   }
 }
 
