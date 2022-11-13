@@ -29,7 +29,7 @@ export class Gate extends Component {
         this.toggleState = this.toggleState.bind(this);
     }
     componentDidMount(){
-        var gtcs = this.state.parent.gateComps;
+        var gtcs = this.state.parent.state.gateComps;
         gtcs[this.id] = this;
         this.state.parent.setState({gateComps: gtcs});
     }
