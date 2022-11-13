@@ -34,7 +34,7 @@ export class Gate extends Component {
         this.state.parent.setState({gateComps: gtcs});
     }
     componentWillUnmount(){
-        var gtcs = this.state.parent.gateComps;
+        var gtcs = this.state.parent.state.gateComps;
         delete gtcs[this.id];
         this.state.parent.setState({gateComps: gtcs});
     }
