@@ -15,11 +15,15 @@ export class TopNav extends Component {
     var elem
     if (this.state.signin)
       elem =<Link to="/" onClick={()=>this.setState({signin:false})}>
-              <img width="30px" height="30px" src={require("../res/Person.png")}/>
+              <div className='personcontainer'>
+                <img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
+              </div>
             </Link>
     else
       elem =<Link to="/signin" onClick={()=>this.setState({signin:true})}>
-                <img width="30px" height="30px" src={require("../res/Person.png")}/>
+              <div className='personcontainer'>
+                <img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
+              </div>
             </Link>
 
     return (<Router>
