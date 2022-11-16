@@ -24,6 +24,7 @@ export class GateSpace extends Component {
         this.drawLineEnd = this.drawLineEnd.bind(this);
         this.drawLineCull = this.drawLineCull.bind(this);
         this.updateGates = this.updateGates.bind(this);
+        this.resetGates = this.resetGates.bind(this);
         this.uuid = -1; // TODO delete
     }
 
@@ -50,8 +51,32 @@ export class GateSpace extends Component {
         }
     }
 
+    resetGates() {
+        var gate_length = Object.keys(this.state.gates).length
+        var line_length = Object.keys(this.state.lines).length
+        var gates = this.state.gateComps
+        var cntOut;
+        var lines;
+
+        for(let i = 0; i<(gate_length + line_length); i++) {
+            for(let gate in gates) {
+                gates[gate].setState({in:[], out:[], on:false})
+                cntOut = gates[gate].state.cntOut;
+
+                for(let cnt in cntOut) {
+                    lines = cntOut[cnt].state.lines;
+
+                    for(let line in lines) {
+                        lines[line].resetLine();
+                    }
+                }
+            }
+        }
+    }
+
     componentDidMount() {
         eventBus.on("simulate", this.updateGates);
+        eventBus.on("resetGates", this.resetGates);
     }
 
     componentWillUnmount() {

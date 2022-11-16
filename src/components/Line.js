@@ -22,6 +22,7 @@ export class Line extends Component {
     this.deleteLine = this.deleteLine.bind(this);
     this.deleteLineOnly = this.deleteLineOnly.bind(this);
     this.updateLine = this.updateLine.bind(this);
+    this.resetLine = this.resetLine.bind(this);
   }
 
   updateLine(turn_on, uuid) {
@@ -45,6 +46,10 @@ export class Line extends Component {
     else
       this.state.out.state.gate.state.in.push(this.state.on)
 
+  }
+
+  resetLine() {
+    this.setState({on:false})
   }
 
   componentDidMount() {
