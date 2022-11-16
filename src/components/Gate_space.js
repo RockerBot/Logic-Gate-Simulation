@@ -43,7 +43,7 @@ export class GateSpace extends Component {
                     lines = cntOut[cnt].state.lines;
 
                     for(let line in lines) {
-                        lines[line].updateLine(gates[gate].state.out[cnt]);
+                        lines[line].updateLine(gates[gate].state.out[cnt], lines[line].state.id);
                     }
                 }
             }

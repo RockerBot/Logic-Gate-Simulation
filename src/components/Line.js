@@ -24,17 +24,27 @@ export class Line extends Component {
     this.updateLine = this.updateLine.bind(this);
   }
 
-  updateLine(turn_on) {
+  updateLine(turn_on, uuid) {
+    var connectors_in = this.state.out.state.gate.state.cntIn
+    var index = 0;
+
+    for(let cntIn in connectors_in) {
+      if(connectors_in[cntIn].state.line.state.id == uuid) {
+        index = cntIn;
+        break;
+      }
+    }
+
     if(turn_on == true) {
       this.setState({on:true})
-      // this.state.out.state.gate.state.in = [this.state.on]
     } else {
       this.setState({on:false})
     }
     if(this.state.out.state.gate.state.in.length >= 2)
-        this.state.out.state.gate.state.in = [];
-    this.state.out.state.gate.state.in.push(this.state.on)
-    console.log(this.state.out.state.gate.state.in)
+      this.state.out.state.gate.state.in[index] = this.state.on;
+    else
+      this.state.out.state.gate.state.in.push(this.state.on)
+
   }
 
   componentDidMount() {
