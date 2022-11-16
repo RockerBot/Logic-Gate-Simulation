@@ -1,9 +1,8 @@
-
-
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import "../css/TopNav.css"
 import Form from './signup'
+import SimulateButton from './SimulateButton'
 
 export class TopNav extends Component {
   constructor(props){
@@ -25,6 +24,7 @@ export class TopNav extends Component {
 
     return (<Router>
 		<div className='top_nav'>
+        <SimulateButton />
         {elem}
 		</div>
 		<Routes>

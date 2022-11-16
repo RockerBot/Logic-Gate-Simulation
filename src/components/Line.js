@@ -21,7 +21,22 @@ export class Line extends Component {
     }
     this.deleteLine = this.deleteLine.bind(this);
     this.deleteLineOnly = this.deleteLineOnly.bind(this);
+    this.updateLine = this.updateLine.bind(this);
   }
+
+  updateLine(turn_on) {
+    if(turn_on == true) {
+      this.setState({on:true})
+      // this.state.out.state.gate.state.in = [this.state.on]
+    } else {
+      this.setState({on:false})
+    }
+    if(this.state.out.state.gate.state.in.length >= 2)
+        this.state.out.state.gate.state.in = [];
+    this.state.out.state.gate.state.in.push(this.state.on)
+    console.log(this.state.out.state.gate.state.in)
+  }
+
   componentDidMount() {
     if(this.state.gateSpace.state.ghostLine !=null){
       let gstln = this.state.gateSpace.state.ghostLine;

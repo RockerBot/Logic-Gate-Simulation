@@ -2,6 +2,8 @@ import React, { Component, Children, cloneElement } from 'react'
 import "../css/GateSpace.css"
 import Gate from './Gate';
 import Line from './Line';
+import eventBus from "../EventBus";
+import { GTYPE } from "../Constants";
 
 export class GateSpace extends Component {    
     constructor(props){
@@ -21,8 +23,41 @@ export class GateSpace extends Component {
         this.drawLineMid = this.drawLineMid.bind(this);
         this.drawLineEnd = this.drawLineEnd.bind(this);
         this.drawLineCull = this.drawLineCull.bind(this);
+        this.updateGates = this.updateGates.bind(this);
         this.uuid = -1; // TODO delete
     }
+
+    updateGates() {
+        var gate_length = Object.keys(this.state.gates).length
+        var line_length = Object.keys(this.state.lines).length
+        var gates = this.state.gateComps
+        var cntOut;
+        var lines;
+
+        for(let i = 0; i<(gate_length + line_length); i++) {
+            for(let gate in gates) {
+                gates[gate].calc();
+                cntOut = gates[gate].state.cntOut;
+
+                for(let cnt in cntOut) {
+                    lines = cntOut[cnt].state.lines;
+
+                    for(let line in lines) {
+                        lines[line].updateLine(gates[gate].state.out[cnt]);
+                    }
+                }
+            }
+        }
+    }
+
+    componentDidMount() {
+        eventBus.on("simulate", this.updateGates);
+    }
+
+    componentWillUnmount() {
+        eventBus.remove("simulate");
+    }
+
     newUUID(){
         this.uuid++;
         return this.uuid;

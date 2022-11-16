@@ -20,13 +20,14 @@ export class Gate extends Component {
             out: [],
             cntIn: {},
             cntOut: {},
-            calc: this.calc.bind(this),
+            // calc: this.calc.bind(this),
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
+        this.calc = this.calc.bind(this);
     }
     componentDidMount(){
         var gtcs = this.state.parent.state.gateComps;
@@ -49,6 +50,7 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
         else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
         else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
+        else if(this.state.logic_type===GTYPE.LED)(this.state.in[0])?(this.state.on = true):(this.state.on = false);
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
@@ -80,6 +82,8 @@ export class Gate extends Component {
             outList.push(!this.state.out[0]);
         }
         this.setState({out:outList});
+        // this.state.out = outList;
+        // this.render()
     }
     toggleState(e){
         if (this.state.logic_type === GTYPE.SWITCH)this.setState({on: !this.state.on});
