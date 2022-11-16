@@ -94,7 +94,7 @@ export class GateSpace extends Component {
             y: e.clientY, 
             k: this.uuid
         }
-        if(e.ctrlKey){
+        if(e.shiftKey){
             this.setState({
                 gates: gts,
                 zdx: z,
