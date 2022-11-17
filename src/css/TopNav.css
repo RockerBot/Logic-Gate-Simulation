@@ -30,7 +30,7 @@
     margin-left: 20px;
     border-radius: 10px;
     border: 2px solid #0d6ff9;
-    background-color: white;
+    background-color: #1f1f1f;
     width: 50px;
     height: 50px;
     transform: scale(1.4);
@@ -63,7 +63,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgb(255, 255, 255);
+    background: #1f1f1f;
     left: 0;
     top: 0;
     border-radius: 10px;
@@ -78,7 +78,7 @@
 }
 
 #SimButton {
-    width: 220px;
+    width: 300px;
     height: 50px;
     border: none;
     outline: none;
@@ -86,11 +86,15 @@
     background: #1F1F1F;
     cursor: pointer;
     position: relative;
-    z-index: 2;
+    z-index: 5;
     border-radius: 10px;
-    margin-right: 40px;
-    scale: 0.9;
-    font-size: large;
+    /* margin-right: 40px; */
+    scale: 1;
+    font-size: x-large;
+    font-family: monospace;
+    letter-spacing: 3px;
+    right: 5px;
+    /* top: 65px; */
 }
 
 #SimButton::before {
