@@ -11,7 +11,7 @@
     border-color: #1F1F1F;
     border-style: solid;
     border-width: 2px;
-    border-radius: 10% 10%;
+    border-radius: 10px;
 
     display: grid;
     place-content: center;
@@ -60,7 +60,7 @@
     overflow-x: hidden;
     scrollbar-width: none;
 
-    background-color: rgb(241, 255, 253);
+    background-color: rgb(255, 255, 255);
 
     border-top-left-radius: 9% 3%;
     border-top-right-radius: 9% 3%;
@@ -74,18 +74,26 @@
     position: fixed;
     bottom:0px;
 }
+.preview::-webkit-scrollbar{
+    width: 0px;
+    background: transparent;
+}
 .GatePreview_container{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 }
-.preview > h3{
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: x-large;
 
+.preview > h2{
+    /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: monospace;
+    font-size: xx-large;
+    text-indent: 5px;
+    letter-spacing: 4px;
     position: relative;
     top: 0%;
-    left: 24%;
+    left: 15%;
 
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */

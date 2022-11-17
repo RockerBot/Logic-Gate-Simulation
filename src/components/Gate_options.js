@@ -11,7 +11,7 @@ export class GateOptions extends Component {
   }
   render() {
     return (<div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")} onClick={e=>e.stopPropagation()}>
-      <h3>GateOptions</h3>
+      <h2>GateOptions</h2>
       <div className='GatePreview_container'>
         {this.elems.map(val =><GatePreview key={val} logicType={val} parent={this.props.parent}/>)}
       </div>

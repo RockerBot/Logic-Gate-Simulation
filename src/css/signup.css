@@ -69,14 +69,24 @@
 }
 
 #email{
-    height: 60%;
+    height: 50%;
     width: 100%;
+    border-radius: 30px;
+    border: 2px solid rgba(0, 0, 0, 0.336);
+    padding: 20px; 
+    width: 200px;
+    height: 15px; 
 }
 
 
 #passw{
-    height: 60%;
+    height: 50%;
     width: 100%;
+    border-radius: 30px;
+    border: 2px solid rgba(0, 0, 0, 0.336);
+    padding: 20px; 
+    width: 200px;
+    height: 15px; 
 }
 
 .login-button-container{
@@ -87,4 +97,6 @@
 #but{
     width: 120px;
     height: 40px;
+    border-radius: 10px;
+    border: 2px solid rgba(77, 77, 77, 0.336);
 }
