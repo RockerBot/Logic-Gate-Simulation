@@ -21,7 +21,7 @@ export default class SimulateButton extends Component {
         simButt.innerText = simButt.innerText === "Simulate"?"Simulating":"Simulate";
         this.state.simulating = !this.state.simulating;
         if(this.state.simulating == true)
-            this.state.broadcastEventId = setInterval(this.broadcastEvent,1000)
+            this.state.broadcastEventId = setInterval(this.broadcastEvent,200)
         else {
             clearInterval(this.state.broadcastEventId);
             // eventBus.dispatch("resetGates"); // If this line is commented it becomes pause button

@@ -14,13 +14,18 @@ export class TopNav extends Component {
   render() {
     var elem
     if (this.state.signin)
-      elem =<Link to="/" onClick={()=>this.setState({signin:false})}>
-              <div className='personcontainer'>
-                <img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
+      elem =<Link to="/" onClick={()=>{
+        document.getElementById('SimButton').hidden = false;
+        this.setState({signin:false})}}>
+              <div className='personcontainer'><img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
               </div>
             </Link>
     else
-      elem =<Link to="/signin" onClick={()=>this.setState({signin:true})}>
+      elem =<Link to="/signin" onClick={()=>{
+          document.getElementById('SimButton').hidden = true;
+          this.setState({signin:true})
+        }
+        }>
               <div className='personcontainer'>
                 <img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
               </div>
@@ -28,8 +33,8 @@ export class TopNav extends Component {
 
     return (<Router>
 		<div className='top_nav'>
-        <SimulateButton />
         {elem}
+        <SimulateButton />
 		</div>
 		<Routes>
 				<Route exact path='/' element={this.props.children}></Route>
