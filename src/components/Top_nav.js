@@ -17,7 +17,7 @@ export class TopNav extends Component {
       elem =<Link to="/" onClick={()=>{
         document.getElementById('SimButton').hidden = false;
         this.setState({signin:false})}}>
-              <div className='personcontainer'><img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
+              <div className='personcontainer'><img id='personimg' alt='person:)' src={require("../res/1.jpg")}/>
               </div>
             </Link>
     else
@@ -27,7 +27,7 @@ export class TopNav extends Component {
         }
         }>
               <div className='personcontainer'>
-                <img id='personimg' alt='person:)' src={require("../res/Person.png")}/>
+                <img id='personimg' alt='person:)' src={require("../res/1.jpg")}/>
               </div>
             </Link>
 

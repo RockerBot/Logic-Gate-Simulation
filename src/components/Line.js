@@ -29,23 +29,20 @@ export class Line extends Component {
     var connectors_in = this.state.out.state.gate.state.cntIn
     var index = 0;
 
-    for(let cntIn in connectors_in) {
-      if(connectors_in[cntIn].state.line.state.id == uuid) {
+    for(let [cntIn, cnt] of Object.entries(connectors_in)) {
+      if(cnt.state.line.state.id == uuid) {
         index = cntIn;
         break;
       }
     }
 
-    if(turn_on == true) {
+    if(turn_on == 1)
       this.setState({on:true})
-    } else {
-      this.setState({on:false})
-    }
-    if(this.state.out.state.gate.state.in.length >= 2)
-      this.state.out.state.gate.state.in[index] = this.state.on;
     else
-      this.state.out.state.gate.state.in.push(this.state.on)
+      this.setState({on:false})
 
+    this.state.out.state.gate.state.in[index] = this.state.on;
+    return this.state.out.state.gate
   }
 
   resetLine() {

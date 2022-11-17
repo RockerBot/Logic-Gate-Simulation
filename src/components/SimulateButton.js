@@ -7,12 +7,12 @@ export default class SimulateButton extends Component {
         super(props);
         this.state = {
             simulating:false,
-            broadcastEventId: null,
+            GateEventId: null,
         }
         this.simulate = this.simulate.bind(this);
     }
 
-    broadcastEvent() {
+    broadcastGateEvent() {
         eventBus.dispatch("simulate");
     }
 
@@ -20,19 +20,18 @@ export default class SimulateButton extends Component {
         const simButt = document.getElementById('SimButton');
         simButt.innerText = simButt.innerText === "Simulate"?"Simulating":"Simulate";
         this.state.simulating = !this.state.simulating;
-        if(this.state.simulating == true)
-            this.state.broadcastEventId = setInterval(this.broadcastEvent,1000)
+        if(this.state.simulating == true) {
+            this.state.GateEventId = setInterval(this.broadcastGateEvent,200)
+        }
         else {
-            clearInterval(this.state.broadcastEventId);
-            // eventBus.dispatch("resetGates"); // If this line is commented it becomes pause button
+            clearInterval(this.state.GateEventId);
+            eventBus.dispatch("resetGates"); // If this line is commented it becomes pause button
         }
     }
 
     render() {
         return(
-            //<div>
-                <button type="button" onClick={this.simulate} id="SimButton">Simulate</button>
-            //</div>
+            <button type="button" onClick={this.simulate} id="SimButton">Simulate</button>
         )
     }
 }
