@@ -18,6 +18,7 @@ export default class SimulateButton extends Component {
 
     simulate() {
         const simButt = document.getElementById('SimButton');
+        const topnav = document.getElementById('top_nav_id');
         simButt.innerText = simButt.innerText === "Simulate"?"Simulating":"Simulate";
         this.state.simulating = !this.state.simulating;
         // const afterSimButton = window.getComputedStyle(simButt,'::after');

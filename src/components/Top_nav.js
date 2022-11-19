@@ -15,14 +15,14 @@ export class TopNav extends Component {
     var elem
     if (this.state.signin)
       elem =<Link to="/" onClick={()=>{
-        // document.getElementById('SimButton').hidden = false;
+        // document.getElementById('top_nav_id').style.scale = 1;
         this.setState({signin:false})}}>
               <div className='personcontainer'><img id='personimg' alt='person:)' src={require("../res/1.jpg")}/>
               </div>
             </Link>
     else
       elem =<Link to="/signin" onClick={()=>{
-          // document.getElementById('SimButton').hidden = true; 
+          // document.getElementById('top_nav_id').style.scale = 0;
           this.setState({signin:true})
         }
         }>
@@ -32,7 +32,7 @@ export class TopNav extends Component {
             </Link>
 
     return (<Router>
-		<div className='top_nav'> 
+		<div className='top_nav' id='top_nav_id'> 
         {elem}
 		</div>
 		<Routes>
