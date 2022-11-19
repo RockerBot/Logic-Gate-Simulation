@@ -21,7 +21,7 @@ export class ConnectorIn extends Component {
     gate.setState({cntIn:cnt})
   }
   createLine(e){
-    if(!("which" in e && e.which ==1 || "button" in e &&e.button==0))return;
+    if(!(("which" in e && e.which ===1) || ("button" in e &&e.button===0)))return;
     this.state.gateSpace.drawLineEnd(e.clientX, e.clientY, this);
     e.preventDefault();
   }
@@ -56,7 +56,7 @@ export class ConnectorOut extends Component {
     gate.setState({cntOut:cnt})
   }
   createLine(e){
-    if(!("which" in e && e.which ==1 || "button" in e &&e.button==0))return;
+    if(!(("which" in e && e.which ===1) || ("button" in e &&e.button===0)))return;
     this.state.gateSpace.drawLineStart(e.clientX, e.clientY, this);
     e.preventDefault();
   }

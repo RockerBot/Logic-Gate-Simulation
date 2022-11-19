@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import "../css/GateOptions.css"
 import { NAME, DIM, GTYPE } from '../Constants';
 import SimulateButton from './SimulateButton'
-// import Draggable from 'react-draggable'
 
 export class GateOptions extends Component {
   constructor(props){
@@ -13,7 +12,7 @@ export class GateOptions extends Component {
   render() {
     return (
     <div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")} onClick={e=>e.stopPropagation()}>
-      {/* <h2>GateOptions</h2> */}
+      <div className='fog'/>
       <div className='simulateButtonContainer'>
         <SimulateButton />
       </div>

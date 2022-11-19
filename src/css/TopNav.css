@@ -19,6 +19,7 @@
     width: 50px;
     height: 50px;
     transform: scale(1.4);
+    
 }
 
 
@@ -58,10 +59,9 @@
     height: 30px;
     border-radius: 5px;
     transform: scale(1.7);
+    
 }
 
-
-/* simButt.innerText = simButt.innerText === "Simulate"?"Simulating":"Simulate"; TODO COPY TO SimulateButton.js in simulate()*/ 
 
 /* #SimButton:active {
     color: #000

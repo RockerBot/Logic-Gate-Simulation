@@ -66,7 +66,7 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
         else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
         else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
-        else if(this.state.logic_type===GTYPE.CLOCK)(this.state.out.length==0)?(this.state.out = [0]):(this.state.out = [(this.state.out[0] == 0)?1:0]);
+        else if(this.state.logic_type===GTYPE.CLOCK)(this.state.out.length===0)?(this.state.out = [0]):(this.state.out = [(this.state.out[0]===0)?1:0]);
         else if(this.state.logic_type===GTYPE.LED)(this.state.in[0])?(this.state.on = true):(this.state.on = false);
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
@@ -183,7 +183,7 @@ export class Gate extends Component {
         }
         var imgName = NAME[this.state.logic_type];
         if(!this.state.on)imgName = imgName.replace("ON", "OFF");
-        if(this.state.logic_type == "CLOCK") {
+        if(this.state.logic_type === GTYPE.CLOCK) {
             // console.log(this.state.showInput)
             return (
                 <div className='Clock'>
