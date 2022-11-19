@@ -8,13 +8,14 @@
     
     /* padding-bottom: 30px; */
     text-align: center;
-
+    border-color: #1F1F1F;
     border-style: solid;
     border-width: 2px;
-    border-radius: 10% 10%;
+    border-radius: 10px;
 
     display: grid;
     place-content: center;
+    background-color: white;
 
     overflow: hidden;
     
@@ -31,7 +32,8 @@
 .GatePreview:hover{
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
-    box-shadow: 0px 0px 10px 3px rgba(0, 255, 204, 0.426);
+    box-shadow: 0px 0px 10px 3px rgba(0, 255, 225, 1);
+    
 }
 .selected{
     border-color: cyan;
@@ -39,43 +41,68 @@
     box-shadow: 0px 0px 10px 1px rgba(0, 255, 204, 0.426);
     /* box-shadow: 10px 5px 5px rgba(0, 255, 204, 0.426); */
 }
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+
 .GatePreview img{
     scale: 0.7;
 }
 
 .preview{
     width: calc(min(20%,300px));
-    height: calc(100vh - 2vh - 50px);
-
-    overflow-y: scroll;
-    overflow-x: hidden;
-    scrollbar-width: none;
-
-    background-color: rgb(241, 255, 253);
-
-    border-top-left-radius: 9% 3%;
+    /* height: calc(100vh - 2vh - 50px); */
+    height: calc(100vh + 2px);
+    
+    background-color:#212121;
+    /* border-top-left-radius: 9% 3%;
     border-top-right-radius: 9% 3%;
     border-bottom-left-radius: 9% 3%;
-    border-bottom-right-radius: 9% 3%;
+    border-bottom-right-radius: 9% 3%; */
+    border-radius: 10px;
     border-style: solid;
+    border-color: #1F1F1F;
     border-width: 5px;
 
     z-index: 100;
     position: fixed;
     bottom:0px;
 }
+.GatePreview_container::-webkit-scrollbar{
+    width: 0px;
+    background: transparent;
+}
 .GatePreview_container{
     display: flex;
     flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
     flex-direction: row;
-}
-.preview > h3{
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: x-large;
 
+    height: calc(97vh);
+    bottom: 5px;
+
+    position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+
+.preview > h2{
+    /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: monospace;
+    color: white;
+    font-size: xx-large;
+    text-indent: 5px;
+    letter-spacing: 4px;
     position: relative;
     top: 0%;
-    left: 24%;
+    left: 15%;
 
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
@@ -100,4 +127,94 @@
 }
 .stick_right{
     right: 0;
+}
+
+.simulateButtonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8%;
+    /* TODO ASK :) <=================================================== */
+    /* position: sticky; */
+    /* top: 0px; */
+}
+
+.SimButton {
+    width: 290px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #1F1F1F;
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
+    border-radius: 10px;
+    /* margin-right: 40px; */
+    scale: 0.9;
+    font-size: x-large;
+    font-family: monospace;
+    letter-spacing: 3px;
+    /* right: 5px; */
+    /* top: 65px; */
+}
+
+.SimButton::before {
+    content: '';
+    /* background:linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000); */
+    background: linear-gradient(45deg,
+                                rgba(255,0,0,1) 0%, 
+                                rgba(255,154,0,1) 10%,
+                                rgba(208,222,33,1) 20%,
+                                rgba(79,220,74,1) 30%,
+                                rgba(63,218,216,1) 40%,
+                                rgba(47,201,226,1) 50%,
+                                rgba(28,127,238,1) 60%, 
+                                rgba(95,21,242,1) 70%, 
+                                rgba(186,12,248,1) 80%, 
+                                rgba(251,7,217,1) 90%, 
+                                rgba(255,0,0,1) 100%);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 10px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+.SimButton::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #1f1f1f;
+    /* linear-gradient(45deg,#20BF55,#01BAEF) */
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+.SimButtonZero::after{ opacity: 0; }
+.SimButtonOne::after{ opacity: 1; }
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+.fog{
+    width: 300px;
+    height: 100px;
+    background-color:#212121;
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    pointer-events: none;
+    position: fixed;
+    top:10px;
+    z-index: 1;
 }

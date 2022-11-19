@@ -1,40 +1,76 @@
 .top_nav{
     position: fixed;
-    top: 0;
-    left: 0;
+    display: flex;
+    align-items: center;
+    height: 56px; 
+    z-index: 2;
+}
 
-    width:100vw;
+.personcontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: 2px solid #0d6ff9;
+    background-color: rgba(255, 255, 255, 0.4);
+    width: 50px;
     height: 50px;
-
-    border-top: 0px;
-    border-right: 0px;
-    border-left: 0px;
-    border-bottom: 5px;
-    border-color: rgb(131, 228, 196);
-    border-bottom-style: outset;
-
-    z-index: 101;
-    background: linear-gradient(90deg, rgb(0, 255, 225), rgb(0, 255, 204));
-}
-.top_nav > div{
-    width: 40px;
-    height: 40px;
+    transform: scale(1.4);
     
-    position: fixed;
-    /* right: 40px; */
-    top: 0.4%;
-    left: 0.5%;
-
-    /* background-color: rgb(161, 193, 193); */
-
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-    
-    border-radius: 50%;
-    border-style: outset;
-    /* border-color: rgb(42, 165, 155); */
-
-    display: grid;
-    place-content: center;
 }
+
+
+.personcontainer::before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 1px);
+    height: calc(100% + 1px);
+    animation: glowing 20s linear infinite;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+.personcontainer::after {
+    opacity: 1;
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+#personimg{
+    position: relative;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    transform: scale(1.7);
+    
+}
+
+
+/* #SimButton:active {
+    color: #000
+} */
+
+/* #SimButton:active::after {
+    background: transparent;
+} */
+
+/* #SimButton:hover::before {
+    opacity: 1;
+} */

@@ -2,6 +2,8 @@ import React, { Component, Children, cloneElement } from 'react'
 import "../css/GateSpace.css"
 import Gate from './Gate';
 import Line from './Line';
+import eventBus from "../EventBus";
+import { GTYPE } from "../Constants";
 
 export class GateSpace extends Component {    
     constructor(props){
@@ -14,6 +16,9 @@ export class GateSpace extends Component {
             selected: null,
             ghostLine: null,
             draggingGate: null,
+            hasClock:null,
+            switches: [],
+            // stopClockId:null,
         };
         this.createGate = this.createGate.bind(this);
         this.newUUID = this.newUUID.bind(this);
@@ -21,8 +26,102 @@ export class GateSpace extends Component {
         this.drawLineMid = this.drawLineMid.bind(this);
         this.drawLineEnd = this.drawLineEnd.bind(this);
         this.drawLineCull = this.drawLineCull.bind(this);
+        this.updateGates = this.updateGates.bind(this);
+        this.resetGates = this.resetGates.bind(this);
+        // this.clockInit = this.clockInit.bind(this);
         this.uuid = -1; // TODO delete
     }
+
+    // clockInit() {
+    //     // console.log("length " + this.state.hasClock.state.out.length)
+    //     // console.log(this.state.hasClock.state.out)
+    //     console.log("Out LENGTH OUTSIDE")
+    //     console.log(this.state.hasClock.state.out.length)
+
+    //     if(this.state.hasClock.state.out.length == 0) {
+    //         var temp = this.state.hasClock.state.out
+    //         temp.push(0)
+    //         console.log("temp")
+    //         console.log(temp)
+    //         this.state.hasClock.state.out = temp
+    //         this.state.hasClock.state.in = temp
+    //         console.log("out")
+    //         console.log(this.state.hasClock.state.out)
+    //         console.log("in")
+    //         console.log(this.state.hasClock.state.in)
+    //         console.log("Out LENGTH")
+    //         console.log(this.state.hasClock.state.out.length)
+    //     }
+    //     else {
+    //         console.log("tree")
+    //         this.state.hasClock.setState({
+    //             out:[!this.state.hasClock.state.out[0],]
+    //         })
+    //     }
+
+    //     // console.log(this.state.hasClock)
+    // }
+
+    updateGates() {
+        var Q = [];
+        var visited = []
+        var ele, cntOut, lines, next; 
+        // this.clockInit();
+        if(this.state.hasClock != null)
+            Q.push(this.state.hasClock) 
+        for(let s of this.state.switches)
+            Q.push(s);
+        while(Q.length > 0) {
+            ele = Q.shift();
+            ele.calc()
+            cntOut = ele.state.cntOut;
+
+            for(let [cntIndex, cnt] of Object.entries(cntOut)) {
+                lines = cnt.state.lines;
+
+                for(let [lineIndex, line] of Object.entries(lines))  {
+                    next = line.updateLine(ele.state.out[cntIndex], line.state.id);
+                    if(!(next.state.id in visited)) {
+                        Q.push(next)
+                        visited.push(next.state.id)
+                    }
+                }
+            }
+        }
+
+    }
+
+    resetGates() {
+        var gate_length = Object.keys(this.state.gates).length
+        var gates = this.state.gateComps
+        var cntOut;
+        var lines;
+
+        for(let i = 0; i<gate_length; i++) {
+            for(let [gateIndex, gate] of Object.entries(gates)) {
+                gate.setState({in:[], out:[], on:false})
+                cntOut = gate.state.cntOut;
+
+                for(let [cntIndex, cnt] of Object.entries(cntOut)) {
+                    lines = cnt.state.lines;
+
+                    for(let [lineIndex, line] of Object.entries(lines))
+                        line.resetLine()
+                }
+            }
+        }
+    }
+
+    componentDidMount() {
+        eventBus.on("simulate", this.updateGates);
+        eventBus.on("resetGates", this.resetGates);
+    }
+
+    componentWillUnmount() {
+        eventBus.remove("simulate");
+        eventBus.remove("resetGates");
+    }
+
     newUUID(){
         this.uuid++;
         return this.uuid;
@@ -84,6 +183,11 @@ export class GateSpace extends Component {
     }
     createGate(e){
         if(this.state.selected===null)return;
+        if(this.state.selected.state.logic_type===GTYPE.CLOCK && this.state.hasClock != null) {
+            console.log("too many clocks")
+            this.state.selected = null;
+            return;
+        }
         var gts = this.state.gates;
         var z = this.state.zdx;
         this.uuid++;

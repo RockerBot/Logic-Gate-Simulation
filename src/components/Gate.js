@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
 import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR, GTYPE } from "../Constants";
+import Input from './Input';
 
 export class Gate extends Component {
     constructor(props){
@@ -20,23 +21,39 @@ export class Gate extends Component {
             out: [],
             cntIn: {},
             cntOut: {},
-            calc: this.calc.bind(this),
+            showInput:false,
+            cps:"5",
+            // calc: this.calc.bind(this),
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
+        this.toggleInput = this.toggleInput.bind(this);
+        this.calc = this.calc.bind(this);
     }
     componentDidMount(){
-        var gtcs = this.state.parent.state.gateComps;
+        var gateSpace = this.state.parent;
+        var gtcs = gateSpace.state.gateComps;
         gtcs[this.state.id] = this;
-        this.state.parent.setState({gateComps: gtcs});
+        var stchs = gateSpace.state.switches
+        stchs.push(this)
+        // if((this.state.logic_type===GTYPE.SWITCH)
+        gateSpace.setState({
+            gateComps: gtcs,
+            hasClock: (this.state.logic_type===GTYPE.CLOCK)?this:gateSpace.state.hasClock,
+            switches: (this.state.logic_type===GTYPE.SWITCH)?stchs:gateSpace.state.switches,
+        });
     }
     componentWillUnmount(){
-        var gtcs = this.state.parent.state.gateComps;
+        var gateSpace = this.state.parent;
+        var gtcs = gateSpace.state.gateComps;
         delete gtcs[this.state.id];
-        this.state.parent.setState({gateComps: gtcs});
+        gateSpace.setState({
+            gateComps: gtcs,
+            hasClock: (this.state.logic_type===GTYPE.CLOCK)?null:gateSpace.hasClock,
+        });
     }
     calc(){
         var outList = [];
@@ -49,6 +66,8 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
         else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
         else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
+        else if(this.state.logic_type===GTYPE.CLOCK)(this.state.out.length===0)?(this.state.out = [0]):(this.state.out = [(this.state.out[0]===0)?1:0]);
+        else if(this.state.logic_type===GTYPE.LED)(this.state.in[0])?(this.state.on = true):(this.state.on = false);
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
@@ -80,6 +99,9 @@ export class Gate extends Component {
             outList.push(!this.state.out[0]);
         }
         this.setState({out:outList});
+    }
+    toggleInput(e){
+        this.setState({showInput: !this.state.showInput});
     }
     toggleState(e){
         if (this.state.logic_type === GTYPE.SWITCH)this.setState({on: !this.state.on});
@@ -161,6 +183,32 @@ export class Gate extends Component {
         }
         var imgName = NAME[this.state.logic_type];
         if(!this.state.on)imgName = imgName.replace("ON", "OFF");
+        if(this.state.logic_type === GTYPE.CLOCK) {
+            // console.log(this.state.showInput)
+            return (
+                <div className='Clock'>
+                    <div className='Gate' style={style}
+                        onMouseDown={this.dragStart} 
+                        onMouseMove={this.dragMid} 
+                        onMouseUp={this.dragEnd}
+                        onContextMenu={this.deleteGate}
+                        onDoubleClick={this.toggleState}
+                        onClick={this.toggleInput}
+                        >
+                        <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
+                        src={require(`../res/${imgName}.png`)}
+                        alt={NAME[this.state.logic_type]}/>
+                        {CNT_IN_POS[this.state.logic_type].map(
+                            (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
+                        )}                
+                        {CNT_OUT_POS[this.state.logic_type].map(
+                            (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
+                        )}                
+                    </div>
+                    {this.state.showInput ? <Input style={style} parent={this}/> : null}
+                </div>
+            )
+        }
         return (
             <div className='Gate' style={style}
             onMouseDown={this.dragStart} 

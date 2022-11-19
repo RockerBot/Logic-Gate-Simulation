@@ -12,7 +12,8 @@ export const GTYPE ={
     SRFF:   "SRFF",
     DFF:    "DFF",
     JKFF:   "JKFF",
-    TFF:    "TFF"
+    TFF:    "TFF",
+    CLOCK:  "CLOCK"
 }
 export const NAME ={
     AND:    "AND",
@@ -28,7 +29,8 @@ export const NAME ={
     SRFF:   "SR Flip Flop",
     DFF:    "D Flip Flop",
     JKFF:   "JK Flip Flop",
-    TFF:    "T Flip Flop"
+    TFF:    "T Flip Flop",
+    CLOCK:  "CLOCK"
 }
 export const DIM ={
     AND:    {w: 150, h: 75},
@@ -45,6 +47,7 @@ export const DIM ={
     DFF:    {w: 125, h: 100},
     JKFF:   {w: 120, h: 125},
     TFF:    {w: 100, h: 100},
+    CLOCK: {w: 70, h: 70},
 }
 export const CNT_IN_POS ={
     AND: [
@@ -78,6 +81,7 @@ export const CNT_IN_POS ={
         { x: -10, y: 30, },
     ],
     SWITCH: [],
+    CLOCK: [],
     LED: [
         { x: -10, y: 15, },
     ],
@@ -127,6 +131,9 @@ export const CNT_OUT_POS ={
     ],
     SWITCH: [
         { x: 40, y: 15, },
+    ],
+    CLOCK: [
+        { x: 60, y: 35, },
     ],
     LED: [],
     SRFF: [

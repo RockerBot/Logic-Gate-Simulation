@@ -21,7 +21,35 @@ export class Line extends Component {
     }
     this.deleteLine = this.deleteLine.bind(this);
     this.deleteLineOnly = this.deleteLineOnly.bind(this);
+    this.updateLine = this.updateLine.bind(this);
+    this.resetLine = this.resetLine.bind(this);
   }
+
+  updateLine(turn_on, uuid) {
+    var gate = this.state.out.state.gate
+    var connectors_in = gate.state.cntIn
+    var index = 0;
+
+    for(let [cntIn, cnt] of Object.entries(connectors_in)) {
+      if(cnt.state.line.state.id === uuid) {
+        index = cntIn;
+        break;
+      }
+    }
+
+    if(turn_on)
+      this.setState({on:true})
+    else
+      this.setState({on:false})
+
+    gate.state.in[index] = this.state.on;
+    return gate
+  }
+
+  resetLine() {
+    this.setState({on:false})
+  }
+
   componentDidMount() {
     if(this.state.gateSpace.state.ghostLine !=null){
       let gstln = this.state.gateSpace.state.ghostLine;

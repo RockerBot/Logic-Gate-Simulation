@@ -12,6 +12,12 @@
     user-select: none; /* Standard syntax */
     /* background-color: brown; */
 }
+.input{
+    position: relative;
+
+   /*bottom: 500px;
+    right: 500px;*/
+}
 img{
     pointer-events: none
 }
