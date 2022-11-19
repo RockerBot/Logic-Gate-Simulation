@@ -2,15 +2,15 @@ import React,{useState} from "react";
 import '../css/signup.css'
 
 const Form=()=>{
-    const[first,setFirst]=useState("");
-    const[last,setLast]=useState("");
-    const[dob,setDob]=useState("");
-    const[phone,setPhone]=useState("");
-    const[prof,setProf]=useState("");
-    const[college,setCollege]=useState("");
+    // const[first,setFirst]=useState("");
+    // const[last,setLast]=useState("");
+    // const[dob,setDob]=useState("");
+    // const[phone,setPhone]=useState("");
+    // const[prof,setProf]=useState("");
+    // const[college,setCollege]=useState("");
     const[email,setEmail]=useState(""); 
 	const[passw,setPassw]=useState("");
-    const[dataInput,setDataInput]=useState("");
+    // const[dataInput,setDataInput]=useState("");
     return(
         
         <div className={"page"} >

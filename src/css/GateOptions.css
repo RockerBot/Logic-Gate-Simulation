@@ -57,7 +57,7 @@
     width: calc(min(20%,300px));
     /* height: calc(100vh - 2vh - 50px); */
     height: calc(100vh + 2px);
-
+    
     overflow-y: scroll;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -83,6 +83,8 @@
 .GatePreview_container{
     display: flex;
     flex-wrap: wrap;
+    /* justify-content: center; */
+    align-items: center;
     flex-direction: row;
 }
 
@@ -121,4 +123,70 @@
 }
 .stick_right{
     right: 0;
+}
+
+.simulateButtonContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 8%;
+    /* TODO ASK :) <====================================================8 */
+    /* position: sticky; */
+    /* top: 0px; */
+}
+
+#SimButton {
+    width: 290px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #1F1F1F;
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
+    border-radius: 10px;
+    /* margin-right: 40px; */
+    scale: 1;
+    font-size: x-large;
+    font-family: monospace;
+    letter-spacing: 3px;
+    /* right: 5px; */
+    /* top: 65px; */
+}
+
+#SimButton::before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+#SimButton::after {
+    content: '';
+    opacity: 1;
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #1F1F1F;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
 }
