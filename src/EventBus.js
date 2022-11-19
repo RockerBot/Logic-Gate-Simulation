@@ -1,4 +1,4 @@
-const eventBus = {
+const EventBus = {
     on(event, callback) {
         document.addEventListener(event, (e) => callback(e.detail));
     },
@@ -11,4 +11,4 @@ const eventBus = {
 };
 
 
-export default eventBus;
+export default EventBus;
