@@ -14,20 +14,15 @@ export class TopNav extends Component {
   render() {
     var elem
     if (this.state.signin)
-      elem =<Link to="/" onClick={()=>{
-        // document.getElementById('top_nav_id').style.scale = 1;
-        this.setState({signin:false})}}>
-              <div className='personcontainer'><img id='personimg' alt='person:)' src={require("../res/1.jpg")}/>
+      elem =<Link to="/" onClick={()=>this.setState({signin:false})} draggable={false}>
+              <div className='personcontainer'>
+                <img id='personimg' alt='person:)' src={require("../res/1.jpg")} draggable={false}/>
               </div>
             </Link>
     else
-      elem =<Link to="/signin" onClick={()=>{
-          // document.getElementById('top_nav_id').style.scale = 0;
-          this.setState({signin:true})
-        }
-        }>
+      elem =<Link to="/signin" onClick={()=>this.setState({signin:true})} draggable={false}>
               <div className='personcontainer'>
-                <img id='personimg' alt='person:)' src={require("../res/1.jpg")}/>
+                <img id='personimg' alt='person:)' src={require("../res/1.jpg")} draggable={false}/>
               </div>
             </Link>
 

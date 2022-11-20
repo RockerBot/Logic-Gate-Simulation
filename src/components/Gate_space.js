@@ -29,7 +29,7 @@ export class GateSpace extends Component {
         this.updateGates = this.updateGates.bind(this);
         this.resetGates = this.resetGates.bind(this);
         // this.clockInit = this.clockInit.bind(this);
-        this.uuid = -1; // TODO delete
+        this.uuid = -1; 
     }
 
     // clockInit() {
@@ -67,15 +67,33 @@ export class GateSpace extends Component {
         var visited = []
         var ele, cntOut, lines, next; 
         // this.clockInit();
-        if(this.state.hasClock != null)
-            Q.push(this.state.hasClock) 
-        for(let s of this.state.switches)
-            Q.push(s);
+        if(this.state.hasClock != null)Q.push(this.state.hasClock) 
+        for(let s of this.state.switches)Q.push(s);
         while(Q.length > 0) {
             ele = Q.shift();
             ele.calc()
             cntOut = ele.state.cntOut;
-
+            for(let i in ele.state.in)  ele.state.cntIn[i].setState({on: ele.state.in[i]})
+            for(let i in ele.state.out)  ele.state.cntOut[i].setState({on: ele.state.out[i]})
+            // for(let oCnt in ele.state.out) {
+            //     console.log("ele:", ele.state)
+            //     let on_val = ele.state.out[oCnt];
+            //     cntOut[oCnt].setState({on: on_val});
+            //     lines = cntOut[oCnt].state.lines;
+            //     for(let ln in lines){
+            //         lines[ln].setState({on:on_val});
+            //         lines[ln].state.out.setState({on:on_val});
+            //         next = lines[ln].state.out.state.gate;
+            //         for(let i in next.state.in)
+            //             next.state.in[i] = next.state.cntIn[i].state.on
+            //         // gate.state.in[index] = this.state.on;
+            //         if(!(next.state.id in visited)){
+            //             console.log(next.state);
+            //             Q.push(next)
+            //             visited.push(next.state.id)
+            //         }
+            //     }
+            // }
             for(let [cntIndex, cnt] of Object.entries(cntOut)) {
                 lines = cnt.state.lines;
 
@@ -185,7 +203,7 @@ export class GateSpace extends Component {
         if(this.state.selected===null)return;
         if(this.state.selected.state.logic_type===GTYPE.CLOCK && this.state.hasClock != null) {
             console.log("too many clocks")
-            this.state.selected = null;
+            this.setState({selected: null});
             return;
         }
         var gts = this.state.gates;

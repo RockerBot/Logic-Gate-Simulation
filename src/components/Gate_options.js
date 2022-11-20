@@ -17,6 +17,7 @@ export class GateOptions extends Component {
         <SimulateButton />
       </div>
       <div className='GatePreview_container'>
+        <div className='Spacer'/>
         {this.elems.map(val =><GatePreview key={val} logicType={val} parent={this.props.parent}/>)}
       </div>
     </div>)

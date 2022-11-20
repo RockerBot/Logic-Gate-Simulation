@@ -209,8 +209,7 @@ export class Gate extends Component {
                 </div>
             )
         }
-        return (
-            <div className='Gate' style={style}
+        return (<div className='Gate' style={style}
             onMouseDown={this.dragStart} 
             onMouseMove={this.dragMid} 
             onMouseUp={this.dragEnd}
@@ -226,8 +225,7 @@ export class Gate extends Component {
                 {CNT_OUT_POS[this.state.logic_type].map(
                     (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
                 )}                
-            </div>
-        )
+        </div>)
     }
 }
 

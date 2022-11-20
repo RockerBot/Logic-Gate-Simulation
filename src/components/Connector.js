@@ -32,7 +32,7 @@ export class ConnectorIn extends Component {
     }
     return (<div style={stl} className='Connector cin' 
     onMouseUp={this.createLine}>
-      <img width={20} height={20} src={require(`../res/Connector.png`)} alt="IN"/>
+      <img width={20} height={20} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="IN"/>
     </div>)
   }
 }
@@ -67,7 +67,7 @@ export class ConnectorOut extends Component {
     }
     return (<div style={stl} className='Connector cout' 
     onMouseDown={this.createLine}>
-      <img width={20} height={20} src={require(`../res/Connector.png`)} alt="OUT"/>
+      <img width={20} height={20} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="OUT"/>
     </div>)
   }
 }

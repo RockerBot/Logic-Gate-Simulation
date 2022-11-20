@@ -25,7 +25,7 @@ export class Line extends Component {
     this.resetLine = this.resetLine.bind(this);
   }
 
-  updateLine(turn_on, uuid) {
+  updateLine(turn_on, uuid) { //* cute
     var gate = this.state.out.state.gate
     var connectors_in = gate.state.cntIn
     var index = 0;
