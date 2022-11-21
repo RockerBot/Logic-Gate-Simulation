@@ -12,7 +12,8 @@ export class GateOptions extends Component {
   render() {
     return (
     <div className={"preview ".concat((this.side==='right')?"stick_right":"stick_left")} onClick={e=>e.stopPropagation()}>
-      <div className='fog'/>
+      <div className='fog_down'/>
+      <div className='fog_up'/>
       <div className='simulateButtonContainer'>
         <SimulateButton />
       </div>

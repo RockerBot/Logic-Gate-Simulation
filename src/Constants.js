@@ -13,7 +13,7 @@ export const GTYPE ={
     DFF:    "DFF",
     JKFF:   "JKFF",
     TFF:    "TFF",
-    CLOCK:  "CLOCK"
+    CLOCK:  "CLOCK",
 }
 export const NAME ={
     AND:    "AND",

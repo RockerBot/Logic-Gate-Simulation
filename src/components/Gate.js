@@ -38,8 +38,7 @@ export class Gate extends Component {
         var gtcs = gateSpace.state.gateComps;
         gtcs[this.state.id] = this;
         var stchs = gateSpace.state.switches
-        stchs.push(this)
-        // if((this.state.logic_type===GTYPE.SWITCH)
+        if(this.state.logic_type===GTYPE.SWITCH)stchs.push(this)
         gateSpace.setState({
             gateComps: gtcs,
             hasClock: (this.state.logic_type===GTYPE.CLOCK)?this:gateSpace.state.hasClock,
@@ -99,6 +98,7 @@ export class Gate extends Component {
             outList.push(!this.state.out[0]);
         }
         this.setState({out:outList});
+        // for(let i in outList)this.state.cntOut[i].setState({on: outList[i]});
     }
     toggleInput(e){
         this.setState({showInput: !this.state.showInput});

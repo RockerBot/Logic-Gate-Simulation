@@ -68,32 +68,45 @@ export class GateSpace extends Component {
         var ele, cntOut, lines, next; 
         // this.clockInit();
         if(this.state.hasClock != null)Q.push(this.state.hasClock) 
-        for(let s of this.state.switches)Q.push(s);
+        for(let s of this.state.switches){
+            Q.push(s);
+            visited.push(s.state.id);
+        }
         while(Q.length > 0) {
             ele = Q.shift();
             ele.calc()
             cntOut = ele.state.cntOut;
             for(let i in ele.state.in)  ele.state.cntIn[i].setState({on: ele.state.in[i]})
             for(let i in ele.state.out)  ele.state.cntOut[i].setState({on: ele.state.out[i]})
+            
             // for(let oCnt in ele.state.out) {
-            //     console.log("ele:", ele.state)
             //     let on_val = ele.state.out[oCnt];
+            //     console.log("ele:",oCnt, ele.state, on_val)//!
             //     cntOut[oCnt].setState({on: on_val});
             //     lines = cntOut[oCnt].state.lines;
+            //     var nums = 0;
             //     for(let ln in lines){
+            //         console.log("lne",nums++, lines[ln])//!
             //         lines[ln].setState({on:on_val});
             //         lines[ln].state.out.setState({on:on_val});
+            //         lines[ln].state.out.on=on_val;
             //         next = lines[ln].state.out.state.gate;
-            //         for(let i in next.state.in)
-            //             next.state.in[i] = next.state.cntIn[i].state.on
+            //         console.log("GT",next);
+            //         var inps = []
+            //         for(let i in next.state.in){
+            //             inps.push(next.state.cntIn[i].state.on)
+            //             // next.state.in[i] = 
+            //         }
+            //         next.setState({in:inps});
             //         // gate.state.in[index] = this.state.on;
             //         if(!(next.state.id in visited)){
-            //             console.log(next.state);
+            //             console.log("NEXT",next.state);//!
             //             Q.push(next)
             //             visited.push(next.state.id)
             //         }
             //     }
             // }
+
             for(let [cntIndex, cnt] of Object.entries(cntOut)) {
                 lines = cnt.state.lines;
 

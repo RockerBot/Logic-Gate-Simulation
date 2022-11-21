@@ -80,7 +80,7 @@
     display: flex;
     flex-wrap: wrap;
     /* justify-content: center; */
-    align-items: center;
+    /* align-items: center; */
     flex-direction: row;
 
     height: calc(97vh);
@@ -175,7 +175,7 @@
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
 }
-.fog{
+.fog_down{
     width: 300px;
     height: 100px;
     background-color:#212121;
@@ -183,6 +183,17 @@
     pointer-events: none;
     position: fixed;
     top:10px;
+    z-index: 1;
+}
+.fog_up{
+    width: 300px;
+    height: 25px;
+    background-color:#212121;
+    /* background-color:#ff00ea; */
+    -webkit-mask-image: -webkit-gradient(linear, left bottom, left top,from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    pointer-events: none;
+    position: fixed;
+    bottom:1px;
     z-index: 1;
 }
 .Spacer{
