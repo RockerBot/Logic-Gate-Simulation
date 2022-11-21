@@ -31,6 +31,7 @@ export default class SimulateButton extends Component {
                 simulating: true,
                 GateEventId : setInterval(this.broadcastGateEvent,200)
             });
+            // setTimeout(this.simulate,5000);//!
         }
     }
 

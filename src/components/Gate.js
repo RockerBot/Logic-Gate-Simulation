@@ -44,18 +44,45 @@ export class Gate extends Component {
             hasClock: (this.state.logic_type===GTYPE.CLOCK)?this:gateSpace.state.hasClock,
             switches: (this.state.logic_type===GTYPE.SWITCH)?stchs:gateSpace.state.switches,
         });
+        var inList=[], outList=[];
+        if(this.state.logic_type===GTYPE.AND){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.NAND){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.OR){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.NOR){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.XOR){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.XNOR){inList = [0,0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.NOT){inList = [0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.BUFFER){inList = [0];outList = [0];}
+        else if(this.state.logic_type===GTYPE.SWITCH){inList = [];outList = [0];}
+        else if(this.state.logic_type===GTYPE.CLOCK){inList = [];outList = [0];}
+        else if(this.state.logic_type===GTYPE.LED){inList = [0];outList = [];}
+        else if(this.state.logic_type===GTYPE.SRFF){inList = [0,0,0];outList = [0,0];}
+        else if(this.state.logic_type===GTYPE.DFF){inList = [0,0];outList = [0,0];}
+        else if(this.state.logic_type===GTYPE.JKFF){inList = [0,0,0];outList = [0,0,0];}
+        else if(this.state.logic_type===GTYPE.TFF){inList = [0,0];outList = [0,0];}
+        this.setState({in:inList, out:outList});
     }
     componentWillUnmount(){
         var gateSpace = this.state.parent;
         var gtcs = gateSpace.state.gateComps;
         delete gtcs[this.state.id];
+        var stchs = gateSpace.state.switches;
+        if(this.state.logic_type===GTYPE.SWITCH){
+            for(let i in stchs){
+                if(stchs[i].state.id!==this.state.id)continue;
+                stchs.pop(i);
+                break;
+            }
+        }
         gateSpace.setState({
             gateComps: gtcs,
+            switches: stchs,
             hasClock: (this.state.logic_type===GTYPE.CLOCK)?null:gateSpace.hasClock,
         });
     }
     calc(){
         var outList = [];
+        var on_val = this.state.on
         if(this.state.logic_type===GTYPE.AND)outList.push(this.state.in[0] && this.state.in[1]);
         else if(this.state.logic_type===GTYPE.NAND)outList.push(!(this.state.in[0] && this.state.in[1]));
         else if(this.state.logic_type===GTYPE.OR)outList.push(this.state.in[0] || this.state.in[1]);
@@ -65,8 +92,8 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
         else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
         else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
-        else if(this.state.logic_type===GTYPE.CLOCK)(this.state.out.length===0)?(this.state.out = [0]):(this.state.out = [(this.state.out[0]===0)?1:0]);
-        else if(this.state.logic_type===GTYPE.LED)(this.state.in[0])?(this.state.on = true):(this.state.on = false);
+        else if(this.state.logic_type===GTYPE.CLOCK)outList.push((!!this.state.out.length)*!this.state.out[0]);
+        else if(this.state.logic_type===GTYPE.LED)on_val=this.state.in[0];
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
@@ -97,7 +124,7 @@ export class Gate extends Component {
             );
             outList.push(!this.state.out[0]);
         }
-        this.setState({out:outList});
+        this.setState({out:outList, on:on_val});
         // for(let i in outList)this.state.cntOut[i].setState({on: outList[i]});
     }
     toggleInput(e){
@@ -215,7 +242,7 @@ export class Gate extends Component {
             onMouseUp={this.dragEnd}
             onContextMenu={this.deleteGate}
             onDoubleClick={this.toggleState}
-            >
+            ><div style={{"position": "absolute"}}>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
                 <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
                 src={require(`../res/${imgName}.png`)}
                 alt={NAME[this.state.logic_type]}/>
@@ -224,7 +251,7 @@ export class Gate extends Component {
                 )}                
                 {CNT_OUT_POS[this.state.logic_type].map(
                     (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
-                )}                
+                )}
         </div>)
     }
 }
