@@ -65,7 +65,7 @@ export class GateSpace extends Component {
     updateGates() {
         var Q = [];
         var visited = [];
-        var ele, cntOut, lines, next; 
+        var ele, lines, next; 
         // this.clockInit();
         if(this.state.hasClock != null)Q.push(this.state.hasClock) 
         for(let s of this.state.switches){
@@ -84,20 +84,19 @@ export class GateSpace extends Component {
         while(Q.length > 0) {
             ele = Q.shift();
             ele.calc()//* GATE OUT
-            cntOut = ele.state.cntOut;
-            // for(let i in ele.state.in)  ele.state.cntIn[i].setState({on: ele.state.in[i]})
             
             for(let oCnt in ele.state.out) {
                 let on_val = ele.state.out[oCnt];
-                console.log("ele:",oCnt, ele.state, on_val)//!
-                cntOut[oCnt].setState({on: on_val});//cntOut[oCnt].state.on=on_val;//* GATE OUT-C
-                lines = cntOut[oCnt].state.lines;
+                // console.log("ele:",oCnt, ele.state, on_val)//!
+                ele.state.cntOut[oCnt].setState({on: on_val});//* GATE OUT-C
+                lines = ele.state.cntOut[oCnt].state.lines;
                 
                 for(let ln in lines){
                     lines[ln].setState({on:on_val});//* LINE
                     lines[ln].state.out.setState({on:on_val});//* GATE IN-C
                     next = lines[ln].state.out.state.gate;
-                    var inps = []
+
+                    var inps = [];
                     for(let i in next.state.in)inps.push(next.state.cntIn[i].state.on)
                     next.setState({in:inps});//* GATE IN
                     if(!visited.includes(next.state.id)){
@@ -120,24 +119,38 @@ export class GateSpace extends Component {
     }
 
     resetGates() {
-        var gate_length = Object.keys(this.state.gates).length
         var gates = this.state.gateComps
-        var cntOut;
-        var lines;
+        var cnts;
+        var lns;
 
-        for(let i = 0; i<gate_length; i++) {
-            for(let [gateIndex, gate] of Object.entries(gates)) {
-                gate.setState({in:[], out:[], on:false})
-                cntOut = gate.state.cntOut;
+        for(let gt in gates){
+            gates[gt].default();//TODO
 
-                for(let [cntIndex, cnt] of Object.entries(cntOut)) {
-                    lines = cnt.state.lines;
+            cnts = gates[gt].state.cntIn;
+            for(let cnt in cnts)cnts[cnt].setState({on:false});
 
-                    for(let [lineIndex, line] of Object.entries(lines))
-                        line.resetLine()
-                }
+            cnts = gates[gt].state.cntOut;
+            for(let cnt in cnts){
+                cnts[cnt].setState({on:false});
+
+                lns = cnts[cnt].state.lines;
+                for(let ln in lns)lns[ln].setState({on:false});
             }
         }
+
+        // for(let i = 0; i<gate_length; i++) {
+        //     for(let [gateIndex, gate] of Object.entries(gates)) {
+        //         gate.setState({in:[], out:[], on:false})
+        //         cntOut = gate.state.cntOut;
+
+        //         for(let [cntIndex, cnt] of Object.entries(cntOut)) {
+        //             lines = cnt.state.lines;
+
+        //             for(let [lineIndex, line] of Object.entries(lines))
+        //                 line.resetLine()
+        //         }
+        //     }
+        // }
     }
 
     componentDidMount() {

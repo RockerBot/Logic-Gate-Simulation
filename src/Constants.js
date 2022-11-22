@@ -157,3 +157,38 @@ export const CONNECTOR={
     h:24,
     w:24
 }
+export const INS={
+    AND:    [0, 0   ],
+    NAND:   [0, 0   ],
+    OR:     [0, 0   ],
+    NOR:    [0, 0   ],
+    XOR:    [0, 0   ],
+    XNOR:   [0, 0   ],
+    NOT:    [0      ],
+    BUFFER: [0      ],
+    SWITCH: [       ],
+    LED:    [0      ],
+    SRFF:   [0, 0, 0],
+    DFF:    [0, 0   ],
+    JKFF:   [0, 0, 0],
+    TFF:    [0, 0   ],
+    CLOCK:  [       ],
+}
+export const OUTS={
+    AND:    [0      ],
+    NAND:   [0      ],
+    OR:     [0      ],
+    NOR:    [0      ],
+    XOR:    [0      ],
+    XNOR:   [0      ],
+    NOT:    [0      ],
+    BUFFER: [0      ],
+    SWITCH: [0      ],
+    LED:    [       ],
+    SRFF:   [0, 0   ],
+    DFF:    [0, 0   ],
+    JKFF:   [0, 0   ],
+    TFF:    [0, 0   ],
+    CLOCK:  [0      ],
+}
+export const SERVER_URL = "http://localhost:3333";
