@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "../css/ConnectLine.css"
+import { CONNECTOR } from '../Constants'
 
 export class ConnectorIn extends Component {
   constructor(props){
@@ -30,9 +31,9 @@ export class ConnectorIn extends Component {
       left: this.state.x,
       top: this.state.y,
     }
-    return (<div style={stl} className='Connector cin' 
-    onMouseUp={this.createLine}>
-      <img width={20} height={20} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="IN"/>
+    return (<div style={stl} className='Connector cin' onMouseUp={this.createLine}>
+      <div className='debug-cnt'>{`${this.state.on} [${this.props.id}]`}</div>{/*//! delet this div */}
+      <img width={CONNECTOR.w} height={CONNECTOR.h} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="IN"/>
     </div>)
   }
 }
@@ -45,7 +46,7 @@ export class ConnectorOut extends Component {
       gate: props.gate,
       gateSpace: props.gateSpace,
       lines: {},
-      on:false,
+      on: false,
     }
     this.createLine = this.createLine.bind(this);
   }
@@ -65,9 +66,9 @@ export class ConnectorOut extends Component {
       left: this.state.x,
       top: this.state.y,
     }
-    return (<div style={stl} className='Connector cout' 
-    onMouseDown={this.createLine}>
-      <img width={20} height={20} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="OUT"/>
+    return (<div style={stl} className='Connector cout' onMouseDown={this.createLine}>
+      <div className='debug-cnt'>{`${this.state.on} [${this.props.id}]`}</div>{/*//! delet this div */}
+      <img width={CONNECTOR.w} height={CONNECTOR.h} src={require(`../res/Connector${(this.state.on)?'ON':'OFF'}.png`)} alt="OUT"/>
     </div>)
   }
 }

@@ -101,7 +101,7 @@ export class Line extends Component {
           height:height+7, 
           left:(isRightward?this.state.frm.x:this.state.to.x), 
           top:(isDownward?this.state.frm.y:this.state.to.y)-3.5
-        }}>
+        }}><div className='debug-line'>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
         <svg
         width={width} 
         height={height+7}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
-import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR, GTYPE } from "../Constants";
+import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR, GTYPE, INS, OUTS } from "../Constants";
 import Input from './Input';
 
 export class Gate extends Component {
@@ -31,6 +31,7 @@ export class Gate extends Component {
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
         this.toggleInput = this.toggleInput.bind(this);
+        this.default = this.default.bind(this);
         this.calc = this.calc.bind(this);
     }
     componentDidMount(){
@@ -44,23 +45,7 @@ export class Gate extends Component {
             hasClock: (this.state.logic_type===GTYPE.CLOCK)?this:gateSpace.state.hasClock,
             switches: (this.state.logic_type===GTYPE.SWITCH)?stchs:gateSpace.state.switches,
         });
-        var inList=[], outList=[];
-        if(this.state.logic_type===GTYPE.AND){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.NAND){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.OR){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.NOR){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.XOR){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.XNOR){inList = [0,0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.NOT){inList = [0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.BUFFER){inList = [0];outList = [0];}
-        else if(this.state.logic_type===GTYPE.SWITCH){inList = [];outList = [0];}
-        else if(this.state.logic_type===GTYPE.CLOCK){inList = [];outList = [0];}
-        else if(this.state.logic_type===GTYPE.LED){inList = [0];outList = [];}
-        else if(this.state.logic_type===GTYPE.SRFF){inList = [0,0,0];outList = [0,0];}
-        else if(this.state.logic_type===GTYPE.DFF){inList = [0,0];outList = [0,0];}
-        else if(this.state.logic_type===GTYPE.JKFF){inList = [0,0,0];outList = [0,0,0];}
-        else if(this.state.logic_type===GTYPE.TFF){inList = [0,0];outList = [0,0];}
-        this.setState({in:inList, out:outList});
+        this.setState({in:[...INS[this.state.logic_type]], out:[...OUTS[this.state.logic_type]]});
     }
     componentWillUnmount(){
         var gateSpace = this.state.parent;
@@ -182,6 +167,10 @@ export class Gate extends Component {
         this.setState({dragging: false});
         this.state.parent.setState({draggingGate: null});
     }
+    default(){
+        if(this.state.logic_type!==GTYPE.SWITCH)
+            this.setState({on:false});
+    }
     deleteGate(e){
         if(!(("which" in e && e.which === 3) || ("button" in e && e.button === 2)))return;
         var gateSpace = this.state.parent
@@ -242,7 +231,7 @@ export class Gate extends Component {
             onMouseUp={this.dragEnd}
             onContextMenu={this.deleteGate}
             onDoubleClick={this.toggleState}
-            ><div style={{"position": "absolute"}}>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
+            ><div className='debug-gate'>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
                 <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
                 src={require(`../res/${imgName}.png`)}
                 alt={NAME[this.state.logic_type]}/>

@@ -23,3 +23,32 @@ code {
   background-repeat: repeat;
   z-index: -100;
 }
+
+.debug-gate{
+  display: none;
+  /* position: absolute;
+  color: purple;
+  background-color: rgba(0, 0, 0, 0.041);
+  font-weight: bold;
+  font-variant: small-caps;
+  pointer-events: none; */
+}
+.debug-cnt{
+  display: none;
+  /* position: absolute;
+  color: purple;
+  background-color: rgba(0, 0, 0, 0.041);
+  font-weight: bold;
+  font-variant: small-caps;
+  pointer-events: none; */
+}
+.debug-line{
+  display: none;
+  /* position: absolute;
+  color: purple;
+  background-color: rgba(0, 0, 0, 0.041);
+  font-weight: bold;
+  font-variant: small-caps;
+  left:50%;
+  pointer-events: none; */
+}
