@@ -20,7 +20,7 @@ export class Form extends Component {
     }
     sendToDb(email, passw){
         console.log(email, passw);
-        fetch(SERVER_URL+`/loginInfo?${email}&${passw}`);
+        fetch(SERVER_URL+`/loginInfo?email=${email}&passw=${passw}`);
         this.state.parent.setState({name: email});
     }
     render() {

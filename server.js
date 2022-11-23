@@ -6,13 +6,14 @@ var queryString = require("querystring");
 var MongoClient = require("mongodb").MongoClient;
 
 function readEntry(res, coll,db,queryObj){    
-    coll.find(queryObj, {projection: {_id: 0, email: 1,}}).toArray((err, result)=>{
+    console.log(queryObj);
+    coll.find(queryObj).toArray((err, result)=>{
         if (err) throw err;
         console.log("Documents:");
         console.log(result);
         db.close();
-        res.write(result.toString());
-        res.end("");
+        // res.write(result.toString());
+        // res.end("");
     });
 }
 
@@ -20,6 +21,7 @@ function readEntry(res, coll,db,queryObj){
 
 app.use(cors());
 app.get('/hey', (req, res) => res.send('<p style="color:red;width:200px; height:50px;">ho!</p>'));
+// app.get('/pls', (req, res) => res.send("index.js"));
 
 app.get('/LoginInfo', (req,res)=>{
     var urlObj = url.parse(req.url);
@@ -40,7 +42,21 @@ app.get('/LoginInfo', (req,res)=>{
     });
 });
 
-
-app.listen(3333,()=>{
-    console.log("we in");
+const PORT=3333;
+app.listen(PORT,()=>{
+    console.log("we in, port:",PORT);
 });//packmage.json has===> "proxy": "http://localhost:3333"
+
+
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
