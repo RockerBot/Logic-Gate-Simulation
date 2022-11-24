@@ -20,15 +20,20 @@ export class Form extends Component {
     }
     sendToDb(email, passw){
         console.log(email, passw);
-        fetch(SERVER_URL+`/loginInfo?email=${email}&passw=${passw}`);
+        // console.log(SERVER_URL+`/loginInfo/?email=${email}&pass=${passw}`)
+        // var fetchurl = SERVER_URL+"/loginInfo/?email="+this.state.email+"&pass="+this.state.passw;
+        var fetchh = fetch(SERVER_URL+"/loginInfo/?email="+this.state.email+"&pass="+this.state.passw);
         this.state.parent.setState({name: email});
+        fetchh.then((response)=>{
+            console.log(response)
+        })
     }
     render() {
         return (<div className={"page"} >
             {/* <br></br><br></br><br></br><br></br> */}
             <div className={"fieldset"}>
                 <p id="heading">Login</p>
-                {/* <form id="formtag" onSubmit={(e)=>this.sendToDb(this,this)}> */}
+                <form id="formtag" onSubmit={(e)=>this.sendToDb(this.state.email,this.state.passw)}>
                     <div id="info">
                         <div>
                             {/* <label htmlFor="email">E-mail ID: </label> */}
@@ -45,13 +50,12 @@ export class Form extends Component {
                             onChange={(e)=>this.setState({passw:e.target.value})}/>
                             <br></br><br></br>
                         </div>
-                        <div className="login-button-container"
-                        onClick={()=>this.sendToDb(this.state.email,this.state.passw)}>
+                        <div className="login-button-container">
                             <button type="submit" id="but" className="lginbutton">Login</button>
                         </div>
                     
                     </div>
-                {/* </form> */}
+                </form>
             </div>
         </div>)
     }
