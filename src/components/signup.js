@@ -36,7 +36,7 @@ export class Form extends Component {
             <div className={"fieldset"}>
                 <p id="heading">Login</p>
                 {/* <form id="formtag" onSubmit={(e)=>this.sendToDb(this.state.email,this.state.pass)}> */}
-                <form id="formtag" action={SERVER_URL+"/loginInfo/?email="+this.state.email+"&hhf="+this.state.pass} method='GET'>
+                <form id="formtag" action={SERVER_URL+"/loginInfo/?email="+this.state.email+"&pass="+this.state.pass} method='GET'>
                     <div id="info">
                         <div>
                             {/* <label htmlFor="email">E-mail ID: </label> */}
