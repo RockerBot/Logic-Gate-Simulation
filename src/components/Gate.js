@@ -81,14 +81,17 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.LED)on_val=this.state.in[0];
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
-            outList.push(
-                (!this.state.in[3]&& this.state.out[0]) || 
-                (this.state.in[3]&&this.state.in[0]) || 
-                (!this.state.in[1]&&this.state.out[0])
-            );
-            outList.push(!this.state.out[0]);/// TODO calc
+            if(this.state.in[2] == 1) {
+                // if(this.state.in[0] != false && this.state.in[1] != false) {
+                outList.push(
+                    (!this.state.in[3]&& this.state.out[0]) || 
+                    (this.state.in[3]&&this.state.in[0]) || 
+                    (!this.state.in[1]&&this.state.out[0])
+                );
+                outList.push(!this.state.out[0]);/// TODO calc
+                // }
+            }
         }else if(this.state.logic_type===GTYPE.DFF){
-            //Q = !CLK&&Q||CLK&&D
             outList.push(
                 (!this.state.in[1]&&this.state.out[0])||
                 (this.state.in[1]&&this.state.in[0])
@@ -110,6 +113,8 @@ export class Gate extends Component {
             outList.push(!this.state.out[0]);
         }
         this.setState({out:outList, on:on_val});
+        console.log("OUT")
+        console.log(this.state.out)
         // for(let i in outList)this.state.cntOut[i].setState({on: outList[i]});
     }
     toggleInput(e){

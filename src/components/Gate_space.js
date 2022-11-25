@@ -62,55 +62,117 @@ export class GateSpace extends Component {
     //     // console.log(this.state.hasClock)
     // }
 
+    // updateGates() {
+    //     var Q = [];
+    //     var visited = [];
+    //     var ele, lines, next; 
+    //     // this.clockInit();
+    //     if(this.state.hasClock != null)Q.push(this.state.hasClock) 
+    //     for(let s of this.state.switches){
+    //         Q.push(s);
+    //         visited.push(s.state.id);
+    //     }
+    //     if ((!Q.length)&&(visited.length !== Object.keys(this.state.gateComps).length)){
+    //         for(let gt in this.state.gateComps){
+    //             if(!visited.includes(this.state.gateComps[gt].state.id)){
+    //                 Q.push(this.state.gateComps[gt]);
+    //                 visited.push(this.state.gateComps[gt].state.id);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     while(Q.length > 0) {
+    //         ele = Q.shift();
+    //         ele.calc()//* GATE OUT
+            
+    //         for(let oCnt in ele.state.out) {
+    //             let on_val = ele.state.out[oCnt];
+    //             // console.log("ele:",oCnt, ele.state, on_val)//!
+    //             ele.state.cntOut[oCnt].setState({on: on_val});//* GATE OUT-C
+    //             lines = ele.state.cntOut[oCnt].state.lines;
+                
+    //             for(let ln in lines){
+    //                 lines[ln].setState({on:on_val});//* LINE
+    //                 lines[ln].state.out.setState({on:on_val});//* GATE IN-C
+    //                 next = lines[ln].state.out.state.gate;
+
+    //                 var inps = [];
+    //                 for(let i in next.state.in)inps.push(next.state.cntIn[i].state.on)
+    //                 next.setState({in:inps});//* GATE IN
+    //                 if(!visited.includes(next.state.id)){
+    //                     Q.push(next);
+    //                     visited.push(next.state.id);
+    //                 }
+    //             }
+    //         }
+    //         if ((!Q.length)&&(visited.length !== Object.keys(this.state.gateComps).length)){
+    //             for(let gt in this.state.gateComps){
+    //                 if(!visited.includes(this.state.gateComps[gt].state.id)){
+    //                     Q.push(this.state.gateComps[gt]);
+    //                     visited.push(this.state.gateComps[gt].state.id);
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    // }
+
     updateGates() {
         var Q = [];
-        var visited = [];
-        var ele, lines, next; 
+        var visited = []
+        var ele, cntOut, lines, next; 
         // this.clockInit();
         if(this.state.hasClock != null)Q.push(this.state.hasClock) 
         for(let s of this.state.switches){
             Q.push(s);
             visited.push(s.state.id);
         }
-        if ((!Q.length)&&(visited.length !== Object.keys(this.state.gateComps).length)){
-            for(let gt in this.state.gateComps){
-                if(!visited.includes(this.state.gateComps[gt].state.id)){
-                    Q.push(this.state.gateComps[gt]);
-                    visited.push(this.state.gateComps[gt].state.id);
-                    break;
-                }
-            }
-        }
+        if(this.state.switches.length == 0 && this.state.hasClock == null)
+            Q.push(this.state.gateComps[0])
         while(Q.length > 0) {
             ele = Q.shift();
-            ele.calc()//* GATE OUT
+            ele.calc()
+            cntOut = ele.state.cntOut;
+            for(let i in ele.state.in)  ele.state.cntIn[i].setState({on: ele.state.in[i]})
+            for(let i in ele.state.out)  ele.state.cntOut[i].setState({on: ele.state.out[i]})
             
-            for(let oCnt in ele.state.out) {
-                let on_val = ele.state.out[oCnt];
-                // console.log("ele:",oCnt, ele.state, on_val)//!
-                ele.state.cntOut[oCnt].setState({on: on_val});//* GATE OUT-C
-                lines = ele.state.cntOut[oCnt].state.lines;
-                
-                for(let ln in lines){
-                    lines[ln].setState({on:on_val});//* LINE
-                    lines[ln].state.out.setState({on:on_val});//* GATE IN-C
-                    next = lines[ln].state.out.state.gate;
+            // for(let oCnt in ele.state.out) {
+            //     let on_val = ele.state.out[oCnt];
+            //     console.log("ele:",oCnt, ele.state, on_val)//!
+            //     cntOut[oCnt].setState({on: on_val});
+            //     lines = cntOut[oCnt].state.lines;
+            //     var nums = 0;
+            //     for(let ln in lines){
+            //         console.log("lne",nums++, lines[ln])//!
+            //         lines[ln].setState({on:on_val});
+            //         lines[ln].state.out.setState({on:on_val});
+            //         lines[ln].state.out.on=on_val;
+            //         next = lines[ln].state.out.state.gate;
+            //         console.log("GT",next);
+            //         var inps = []
+            //         for(let i in next.state.in){
+            //             inps.push(next.state.cntIn[i].state.on)
+            //             // next.state.in[i] = 
+            //         }
+            //         next.setState({in:inps});
+            //         // gate.state.in[index] = this.state.on;
+            //         if(!(next.state.id in visited)){
+            //             console.log("NEXT",next.state);//!
+            //             Q.push(next)
+            //             visited.push(next.state.id)
+            //         }
+            //     }
+            // }
 
-                    var inps = [];
-                    for(let i in next.state.in)inps.push(next.state.cntIn[i].state.on)
-                    next.setState({in:inps});//* GATE IN
-                    if(!visited.includes(next.state.id)){
-                        Q.push(next);
-                        visited.push(next.state.id);
-                    }
-                }
-            }
-            if ((!Q.length)&&(visited.length !== Object.keys(this.state.gateComps).length)){
-                for(let gt in this.state.gateComps){
-                    if(!visited.includes(this.state.gateComps[gt].state.id)){
-                        Q.push(this.state.gateComps[gt]);
-                        visited.push(this.state.gateComps[gt].state.id);
-                        break;
+            for(let [cntIndex, cnt] of Object.entries(cntOut)) {
+                lines = cnt.state.lines;
+
+                for(let [lineIndex, line] of Object.entries(lines))  {
+                    next = line.updateLine(ele.state.out[cntIndex], line.state.id);
+                    if(!visited.includes(next.state.id)/*!(next.state.id in visited)*/) {
+                        Q.push(next)
+                        visited.push(next.state.id)
                     }
                 }
             }
@@ -120,37 +182,42 @@ export class GateSpace extends Component {
 
     resetGates() {
         var gates = this.state.gateComps
-        var cnts;
-        var lns;
+        var cntOut, cntIn;
+        var lines;
 
-        for(let gt in gates){
-            gates[gt].default();//TODO
+        // for(let gt in gates){
+        //     gates[gt].default();//TODO
 
-            cnts = gates[gt].state.cntIn;
-            for(let cnt in cnts)cnts[cnt].setState({on:false});
+        //     cnts = gates[gt].state.cntIn;
+        //     for(let cnt in cnts)cnts[cnt].setState({on:false});
 
-            cnts = gates[gt].state.cntOut;
-            for(let cnt in cnts){
-                cnts[cnt].setState({on:false});
+        //     cnts = gates[gt].state.cntOut;
+        //     for(let cnt in cnts){
+        //         cnts[cnt].setState({on:false});
 
-                lns = cnts[cnt].state.lines;
-                for(let ln in lns)lns[ln].setState({on:false});
-            }
-        }
-
-        // for(let i = 0; i<gate_length; i++) {
-        //     for(let [gateIndex, gate] of Object.entries(gates)) {
-        //         gate.setState({in:[], out:[], on:false})
-        //         cntOut = gate.state.cntOut;
-
-        //         for(let [cntIndex, cnt] of Object.entries(cntOut)) {
-        //             lines = cnt.state.lines;
-
-        //             for(let [lineIndex, line] of Object.entries(lines))
-        //                 line.resetLine()
-        //         }
+        //         lns = cnts[cnt].state.lines;
+        //         for(let ln in lns)lns[ln].setState({on:false});
         //     }
         // }
+
+        for(let i = 0; i<Object.keys(gates).length; i++) {
+            for(let [gateIndex, gate] of Object.entries(gates)) {
+                gate.setState({in:[], out:[], on:false})
+                cntOut = gate.state.cntOut;
+                cntIn = gate.state.cntIn;
+
+                for(let [cntIndex, cnt] of Object.entries(cntIn))
+                        cnt.setState({on:false})
+
+                for(let [cntIndex, cnt] of Object.entries(cntOut)) {
+                    lines = cnt.state.lines;
+                    cnt.setState({on:false})
+
+                    for(let [lineIndex, line] of Object.entries(lines))
+                        line.resetLine()
+                }
+            }
+        }
     }
 
     componentDidMount() {
