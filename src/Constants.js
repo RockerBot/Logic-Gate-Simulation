@@ -192,3 +192,4 @@ export const OUTS={
     CLOCK:  [0      ],
 }
 export const SERVER_URL = "http://localhost:3333";
+export const LOGIC_GATE_URL = "http://localhost:3000";

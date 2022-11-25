@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import '../css/signup.css'
 import {SERVER_URL } from "../Constants"
 
-// function sendToDb(email, passw){
-//     console.log(email, passw);
+// function sendToDb(email, pass){
+//     console.log(email, pass);
 //     // var response = await fetch(SERVER_URL+`/signs?${email}&${passw}`);
 //     // response = await response.json();
 
@@ -13,22 +13,30 @@ export class Form extends Component {
         super(props);
         this.state = {
             email:"",
-            passw:"",
+            pass:"",
             parent: props.parent,
         }
         this.sendToDb = this.sendToDb.bind(this);
     }
-    sendToDb(email, passw){
-        console.log(email, passw);
-        fetch(SERVER_URL+`/loginInfo?${email}&${passw}`);
+    sendToDb(email, pass){
+        console.log(email, pass);
+        // console.log(SERVER_URL+`/loginInfo/?email=${email}&pass=${pass}`)
+        // var fetchurl = SERVER_URL+"/loginInfo/?email="+this.state.email+"&pass="+this.state.pass;
+        var fetchh = fetch(SERVER_URL+"/loginInfo/?email="+this.state.email+"&pass="+this.state.pass);
         this.state.parent.setState({name: email});
+        fetchh.then((response)=>{
+            // console.log(response)
+            // alert(JSON.stringify(response.body))
+            response.json()
+        }).then(data=>alert("DATa",JSON.stringify(data)))
     }
     render() {
         return (<div className={"page"} >
             {/* <br></br><br></br><br></br><br></br> */}
             <div className={"fieldset"}>
                 <p id="heading">Login</p>
-                {/* <form id="formtag" onSubmit={(e)=>this.sendToDb(this,this)}> */}
+                {/* <form id="formtag" onSubmit={(e)=>this.sendToDb(this.state.email,this.state.pass)}> */}
+                <form id="formtag" action={SERVER_URL+"/loginInfo/?email="+this.state.email+"&hhf="+this.state.pass} method='GET'>
                     <div id="info">
                         <div>
                             {/* <label htmlFor="email">E-mail ID: </label> */}
@@ -39,19 +47,18 @@ export class Form extends Component {
                         </div>
 
                         <div>
-                            {/* <label htmlFor="passw">Password: </label> */}
+                            {/* <label htmlFor="pass">Password: </label> */}
                             <input required placeholder="Password" type="password"
-                            name="passw" id="passw" value={this.state.passw}
-                            onChange={(e)=>this.setState({passw:e.target.value})}/>
+                            name="pass" id="pass" value={this.state.pass}
+                            onChange={(e)=>this.setState({pass:e.target.value})}/>
                             <br></br><br></br>
                         </div>
-                        <div className="login-button-container"
-                        onClick={()=>this.sendToDb(this.state.email,this.state.passw)}>
+                        <div className="login-button-container">
                             <button type="submit" id="but" className="lginbutton">Login</button>
                         </div>
                     
                     </div>
-                {/* </form> */}
+                </form>
             </div>
         </div>)
     }
