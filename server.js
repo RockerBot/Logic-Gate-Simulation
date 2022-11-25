@@ -1,12 +1,19 @@
+// import {SIGNIN, LOGIC_GATE_URL} from "./src/Constants"
 const express = require('express');
 const app = express();
 const cors = require('cors');//! npm install cors
+var bodyParser = require("body-parser");
 var url = require("url");
 var queryString = require("querystring");
+const { json } = require('body-parser');
 var MongoClient = require("mongodb").MongoClient;
 
 
 app.use(cors());
+const SIGNIN = 'http://localhost:3000/signin';
+const LOGIC_GATE_URL = 'http://localhost:3000';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.get('/hey', (req, res) => res.send('<p style="color:red;width:200px; height:50px;">ho!</p>'));
 // app.get('/pls', (req, res) => res.send("index.js"));
 
@@ -25,13 +32,19 @@ app.get('/loginInfo', (req,res)=>{
         collection.find({email: checkmail}).toArray((err,result)=>{
             if (err) console.log("ERROR =(");
             try{
-                // const res_email = result[0].email;
+                const res_email = result[0].email;
                 const res_pass = result[0].pass;
+                console.log("AUTH:"," ", pass," ", checkmail);
+                console.log("MONGO:", res_pass, " ", res_email);
+                console.log("URL: ", req.url)
                 if(res_pass === pass){
                     // res.write(`1:${checkmail}`);
                     // res.end();
                     db.close();
-                    console.log("CORRECT PASSWORD...REDIRECTING")
+                    console.log("CORRECT PASSWORD...REDIRECTING ", res_pass, " ", pass);
+                    res.redirect(LOGIC_GATE_URL);
+                    // res.json({auth:1})
+                    // res.json({auth: 1})
                     
                     // res.send("GG")
                     // res.redirect('localhost:3000')
@@ -42,15 +55,22 @@ app.get('/loginInfo', (req,res)=>{
                     // res.end();
                     db.close();
                     console.log("CORRECT EMAIL WRONG PASSWORD :) ");
+                    // res.json({auth: 0})
+                    res.redirect(SIGNIN);
                 }
             }catch{
                 console.log("NO DATA FOUND :)\n making an entry");
-                collection.insertOne({email:checkmail,pass:pass},(err, result)=>{
-                    if(err)throw err;
-                    // res.write(`1:${checkmail}`);
-                    // res.end();
-                    db.close();
-                })
+                // collection.insertOne({email:checkmail,pass:pass},(err, result)=>{
+                //     if(err)throw err;
+                //     // res.write(`1:${checkmail}`);
+                //     // res.end();
+                //     res.json({auth: 0})
+                //     db.close();
+                // })
+
+                // res.json({auth: 2})
+                res.redirect(SIGNIN);
+                db.close();
             }
                 
         })
