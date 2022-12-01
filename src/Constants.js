@@ -133,7 +133,7 @@ export const CNT_OUT_POS ={
         { x: 40, y: 15, },
     ],
     CLOCK: [
-        { x: 60, y: 35, },
+        { x: 60, y: 25, },
     ],
     LED: [],
     SRFF: [
@@ -191,5 +191,22 @@ export const OUTS={
     TFF:    [0, 0   ],
     CLOCK:  [0      ],
 }
-export const SERVER_URL = "http://localhost:3333";
-export const LOGIC_GATE_URL = "http://localhost:3000";
+// export const SERVER_URL = "http://localhost:3333";
+// export const LOGIC_GATE_URL = "http://localhost:3000";
+// export const SIGNIN = '/signin';
+
+export const SERVER_URL = {
+    port: 3333,
+    base: "http://localhost:3333",
+    login: "/loginInfo",
+    gates: "/gates",
+    mongo: {
+        base: "mongodb://localhost:27017",
+        database: "LogicGateSimulation",
+        collection: "LoginInfo",
+    },
+}
+export const CLIENT_URL = {
+    base: "http://localhost:3000",
+    signin: '/signin',
+}
