@@ -222,6 +222,7 @@ export class GateSpace extends Component {
     }
     drawLineCull(e){
         if(this.state.ghostLine === null)return;
+        this.props.cssvar.setProperty('--cout','1');
         this.setState({ ghostLine: null });
     }
     createGate(e){

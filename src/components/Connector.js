@@ -23,7 +23,11 @@ export class ConnectorIn extends Component {
   }
   createLine(e){
     if(!(("which" in e && e.which ===1) || ("button" in e &&e.button===0)))return;
-    this.state.gateSpace.drawLineEnd(e.clientX, e.clientY, this);
+    var stt = this.state;
+    var gateSpace = stt.gateSpace;
+    gateSpace.props.cssvar.setProperty('--cout','1');
+    gateSpace.drawLineEnd(stt.gate.state.x + stt.x + CONNECTOR.w/2,
+                          stt.gate.state.y + stt.y + CONNECTOR.h/2, this);
     e.preventDefault();
   }
   render() {
@@ -58,7 +62,11 @@ export class ConnectorOut extends Component {
   }
   createLine(e){
     if(!(("which" in e && e.which ===1) || ("button" in e &&e.button===0)))return;
-    this.state.gateSpace.drawLineStart(e.clientX, e.clientY, this);
+    var stt = this.state;
+    var gateSpace = stt.gateSpace;
+    gateSpace.props.cssvar.setProperty('--cout','-1');
+    gateSpace.drawLineStart(stt.x + stt.gate.state.x + CONNECTOR.w/2,
+                            stt.y + stt.gate.state.y + CONNECTOR.h/2, this);
     e.preventDefault();
   }
   render() {

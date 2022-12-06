@@ -1,3 +1,6 @@
+:root{
+    --cout: 1;
+}
 .Connector{
     position: absolute;}
 .cin{
@@ -6,6 +9,14 @@
 .cout{
     /* background-color: rgb(255, 0, 174); */
 }
+.cin:hover{
+    /* background-color: blue; */
+    scale: calc(1.1 - var(--cout) * 0.1);
+}
+.cout:hover{
+    /* background-color: rgb(255, 0, 174); */
+    scale: calc(1.1 + var(--cout) * 0.1);
+}
 .Line{
     position: absolute;
     pointer-events: none;
@@ -13,4 +24,8 @@
 }
 .Line>svg>path{
     pointer-events: stroke;
+    stroke-width: 5;
+}
+.Line>svg>path:hover{
+    stroke-width: 7;
 }
