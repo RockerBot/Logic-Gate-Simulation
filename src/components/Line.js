@@ -70,7 +70,7 @@ export class Line extends Component {
       delete inlns[this.state.id];
       this.state.in.setState({lines:inlns});
     }else{
-      this.state.out.setState({line:null});
+      this.state.out.setState({line:null,on:false});
     }
     delete lines[this.state.id]
     this.state.gateSpace.setState({lines:lines});
@@ -80,7 +80,7 @@ export class Line extends Component {
     var inlns = this.state.in.state.lines
     delete inlns[this.state.id];
     this.state.in.setState({lines:inlns});
-    this.state.out.setState({line:null});
+    this.state.out.setState({line:null,on:false});
     delete lines[this.state.id]
     this.state.gateSpace.setState({lines:lines});
     if(e)e.preventDefault();
