@@ -22,15 +22,16 @@ export class Gate extends Component {
             cntIn: {},
             cntOut: {},
             showInput:false,
-            cps:"5",
-            // calc: this.calc.bind(this),
+            cps:{
+                tick:5,
+                max:5,
+            },
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
         this.dragEnd = this.dragEnd.bind(this);
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
-        this.toggleInput = this.toggleInput.bind(this);
         this.default = this.default.bind(this);
         this.calc = this.calc.bind(this);
     }
@@ -67,7 +68,8 @@ export class Gate extends Component {
     }
     calc(){
         var outList = [];
-        var on_val = this.state.on
+        var on_val = this.state.on;
+        var cps = this.state.cps;
         if(this.state.logic_type===GTYPE.AND)outList.push(this.state.in[0] && this.state.in[1]);
         else if(this.state.logic_type===GTYPE.NAND)outList.push(!(this.state.in[0] && this.state.in[1]));
         else if(this.state.logic_type===GTYPE.OR)outList.push(this.state.in[0] || this.state.in[1]);
@@ -77,16 +79,19 @@ export class Gate extends Component {
         else if(this.state.logic_type===GTYPE.NOT)outList.push(!this.state.in[0]);
         else if(this.state.logic_type===GTYPE.BUFFER)outList.push(this.state.in[0]);
         else if(this.state.logic_type===GTYPE.SWITCH)outList.push(this.state.on);
-        else if(this.state.logic_type===GTYPE.CLOCK)outList.push((!!this.state.out.length)*!this.state.out[0]);
         else if(this.state.logic_type===GTYPE.LED)on_val=this.state.in[0];
+        else if(this.state.logic_type===GTYPE.CLOCK){
+            cps.tick = (cps.tick+1)%(cps.max*2);
+            outList.push(!(cps.tick < cps.max))
+        }
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
             outList.push(
-                (!this.state.in[3]&& this.state.out[0]) || 
-                (this.state.in[3]&&this.state.in[0]) || 
+                (!this.state.in[2]&& this.state.out[0]) || 
+                (this.state.in[2]&&this.state.in[0]) || 
                 (!this.state.in[1]&&this.state.out[0])
             );
-            outList.push(!this.state.out[0]);/// TODO calc
+            outList.push(!this.state.out[0]);
         }else if(this.state.logic_type===GTYPE.DFF){
             //Q = !CLK&&Q||CLK&&D
             outList.push(
@@ -97,26 +102,24 @@ export class Gate extends Component {
         }else if(this.state.logic_type===GTYPE.JKFF){
             //Q = !(K&&CLK)&&Q||CLK&&J&&!Q
             outList.push(
-                (!(this.state.in[1]&&this.state.in[3])&&this.state.out[0])||
-                (this.state.in[3]&&this.state.in[0]&&!this.state.out[0])
+                (!(this.state.in[1]&&this.state.in[2])&&this.state.out[0])||
+                (  this.state.in[0]&&this.state.in[2]&&!this.state.out[0])
             );
             outList.push(!this.state.out[0]);
         }else if(this.state.logic_type===GTYPE.TFF){
             //Q = !(T&&CLK)&&Q||CLK&&T&&!Q
             outList.push(
                 (!(this.state.in[0]&&this.state.in[1])&&this.state.out[0])||
-                (this.state.in[1]&&this.state.in[0]&&!this.state.out[0])
+                (  this.state.in[0]&&this.state.in[1]&&!this.state.out[0])
             );
             outList.push(!this.state.out[0]);
         }
-        this.setState({out:outList, on:on_val});
+        this.setState({out:outList, on:on_val, cps:cps});
         // for(let i in outList)this.state.cntOut[i].setState({on: outList[i]});
-    }
-    toggleInput(e){
-        this.setState({showInput: !this.state.showInput});
     }
     toggleState(e){
         if (this.state.logic_type === GTYPE.SWITCH)this.setState({on: !this.state.on});
+        else if (this.state.logic_type === GTYPE.CLOCK)this.setState({showInput: !this.state.showInput});
     }
     dragStart(e){
         var dx = e.clientX - e.currentTarget.getBoundingClientRect().left;
@@ -198,32 +201,21 @@ export class Gate extends Component {
             zIndex: this.state.parent.state.zdx.indexOf(this.state.id),
         }
         var imgName = NAME[this.state.logic_type];
+        var dim = DIM[this.state.logic_type];
+        var clock_elem = null;
+        var debug_elem = <div className='debug-gate debug'>{`${this.state.on} [${this.state.id}]`}{/*//! delet this div */}</div>
         if(!this.state.on)imgName = imgName.replace("ON", "OFF");
         if(this.state.logic_type === GTYPE.CLOCK) {
-            // console.log(this.state.showInput)
-            return (
-                <div className='Clock'>
-                    <div className='Gate' style={style}
-                        onMouseDown={this.dragStart} 
-                        onMouseMove={this.dragMid} 
-                        onMouseUp={this.dragEnd}
-                        onContextMenu={this.deleteGate}
-                        onDoubleClick={this.toggleState}
-                        onClick={this.toggleInput}
-                        >
-                        <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
-                        src={require(`../res/${imgName}.png`)}
-                        alt={NAME[this.state.logic_type]}/>
-                        {CNT_IN_POS[this.state.logic_type].map(
-                            (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
-                        )}                
-                        {CNT_OUT_POS[this.state.logic_type].map(
-                            (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
-                        )}                
-                    </div>
-                    {this.state.showInput ? <Input style={style} parent={this}/> : null}
-                </div>
-            )
+            debug_elem = <div className='debug-gate debug'>{`${this.state.on} [${this.state.id}] ${this.state.cps.tick}/${this.state.cps.max}`}{/*//! delet this div */}</div>;
+            clock_elem = <svg width={dim.w} height={dim.h} className='clock_counter'>
+                <path strokeWidth={7} strokeLinecap="round" fill='none' strokeDasharray="100 100" 
+                stroke={`${this.state.cps.tick<this.state.cps.max?'cyan':'gray'}`}                
+                d={`M${dim.w/2} ${(dim.h-31.831)/2} a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`}/>
+                <path strokeWidth={7} strokeLinecap="round" fill='none'
+                stroke={`${this.state.cps.tick<this.state.cps.max?'gray':'cyan'}`}
+                strokeDasharray={`${100*(this.state.cps.tick%this.state.cps.max + 1)/this.state.cps.max} 100`}
+                d={`M${dim.w/2} ${(dim.h-31.831)/2} a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`}/>
+            </svg>
         }
         return (<div className='Gate' style={style}
             onMouseDown={this.dragStart} 
@@ -231,8 +223,10 @@ export class Gate extends Component {
             onMouseUp={this.dragEnd}
             onContextMenu={this.deleteGate}
             onDoubleClick={this.toggleState}
-            ><div className='debug-gate'>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
-                <img width={DIM[this.state.logic_type].w} height={DIM[this.state.logic_type].h}
+            >
+                {clock_elem}
+                {debug_elem}
+                <img width={dim.w} height={dim.h}
                 src={require(`../res/${imgName}.png`)}
                 alt={NAME[this.state.logic_type]}/>
                 {CNT_IN_POS[this.state.logic_type].map(
@@ -241,6 +235,7 @@ export class Gate extends Component {
                 {CNT_OUT_POS[this.state.logic_type].map(
                     (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
                 )}
+                {this.state.showInput && <Input parent={this}/>}
         </div>)
     }
 }

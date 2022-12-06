@@ -36,6 +36,7 @@ class GatePreview extends Component {
     this.setSelect = this.setSelect.bind(this);
   }
   setSelect(e){
+    if(this.state.logic_type===GTYPE.CLOCK && this.state.parent.state.hasClock!==null)return;
     if(this.state.parent.state.selected!==null)
       this.state.parent.state.selected.setState({selected: false});
     this.state.parent.setState({selected: this});

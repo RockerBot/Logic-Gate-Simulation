@@ -67,7 +67,10 @@ export class GateSpace extends Component {
         var visited = [];
         var ele, lines, next; 
         // this.clockInit();
-        if(this.state.hasClock != null)Q.push(this.state.hasClock) 
+        if(this.state.hasClock != null){
+            Q.push(this.state.hasClock);
+            visited.push(this.state.hasClock.state.id);
+        }
         for(let s of this.state.switches){
             Q.push(s);
             visited.push(s.state.id);
@@ -83,11 +86,10 @@ export class GateSpace extends Component {
         }
         while(Q.length > 0) {
             ele = Q.shift();
-            ele.calc()//* GATE OUT
+            ele.calc();//* GATE OUT
             
             for(let oCnt in ele.state.out) {
                 let on_val = ele.state.out[oCnt];
-                // console.log("ele:",oCnt, ele.state, on_val)//!
                 ele.state.cntOut[oCnt].setState({on: on_val});//* GATE OUT-C
                 lines = ele.state.cntOut[oCnt].state.lines;
                 
@@ -239,7 +241,7 @@ export class GateSpace extends Component {
             y: e.clientY, 
             k: this.uuid
         }
-        if(e.shiftKey){
+        if(e.shiftKey && this.state.selected.state.logic_type!==GTYPE.CLOCK){
             this.setState({
                 gates: gts,
                 zdx: z,

@@ -25,30 +25,46 @@ code {
 }
 
 .debug-gate{
-  display: none;
   position: absolute;
   color: purple;
-  background-color: rgba(0, 0, 0, 0.041);
+  text-shadow:
+  -1px 0px 0px white,
+  1px 0px 0px white,
+  0px -1px 0px white,
+  0px 1px 0px white;
+  /* background-color: rgba(0, 0, 0, 0.041); */
   font-weight: bold;
   font-variant: small-caps;
   pointer-events: none;
 }
 .debug-cnt{
-  display: none;
   position: absolute;
   color: purple;
-  background-color: rgba(0, 0, 0, 0.041);
+  text-shadow:
+  -1px 0px 0px white,
+  1px 0px 0px white,
+  0px -1px 0px white,
+  0px 1px 0px white;
+  /* background-color: rgba(0, 0, 0, 0.041); */
   font-weight: bold;
   font-variant: small-caps;
   pointer-events: none;
 }
 .debug-line{
-  display: none;
   position: absolute;
   color: purple;
-  background-color: rgba(0, 0, 0, 0.041);
+  text-shadow:
+  -1px 0px 0px white,
+  1px 0px 0px white,
+  0px -1px 0px white,
+  0px 1px 0px white;
+  /* background-color: rgba(0, 0, 0, 0.041); */
   font-weight: bold;
   font-variant: small-caps;
   left:50%;
+  top: 50%;
   pointer-events: none;
+}
+.debug{
+  display: none;
 }
