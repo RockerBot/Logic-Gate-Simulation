@@ -3,7 +3,7 @@ import "../css/GateSpace.css"
 import Gate from './Gate';
 import Line from './Line';
 import eventBus from "../EventBus";
-import { GTYPE } from "../Constants";
+import { DIM, GTYPE } from "../Constants";
 
 export class GateSpace extends Component {    
     constructor(props){
@@ -22,6 +22,7 @@ export class GateSpace extends Component {
         };
         this.createGate = this.createGate.bind(this);
         this.newUUID = this.newUUID.bind(this);
+        this.resolveRotation = this.resolveRotation.bind(this);
         this.drawLineStart = this.drawLineStart.bind(this);
         this.drawLineMid = this.drawLineMid.bind(this);
         this.drawLineEnd = this.drawLineEnd.bind(this);
@@ -168,6 +169,16 @@ export class GateSpace extends Component {
     newUUID(){
         this.uuid++;
         return this.uuid;
+    }
+    resolveRotation(gStt, cntStt){
+        const W = DIM[gStt.logic_type].w;
+        const H = DIM[gStt.logic_type].h;
+        switch(gStt.rotation){
+            case 3: return {x:gStt.x + W/2 - H/2 + cntStt.y, y:gStt.y + H/2 + W/2 - cntStt.x};
+            case 2: return {x:gStt.x + W - cntStt.x, y:gStt.y + H - cntStt.y}
+            case 1: return {x:gStt.x + W/2 + H/2 - cntStt.y, y:gStt.y + H/2 - W/2 + cntStt.x}
+            default: return {x:gStt.x + cntStt.x, y:gStt.y + cntStt.y}
+        }
     }
     drawLineStart(x,y, io){
         this.setState({

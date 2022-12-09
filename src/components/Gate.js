@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
-import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, CONNECTOR, GTYPE, INS, OUTS } from "../Constants";
+import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, GTYPE, INS, OUTS } from "../Constants";
 import Input from './Input';
 
 export class Gate extends Component {
@@ -14,6 +14,7 @@ export class Gate extends Component {
             x: props.x,
             y: props.y,
             on: false,
+            rotation: 0,
 
             dx: 0,
             dy: 0,
@@ -33,6 +34,7 @@ export class Gate extends Component {
         this.dragEnd = this.dragEnd.bind(this);
         this.deleteGate = this.deleteGate.bind(this);
         this.toggleState = this.toggleState.bind(this);
+        this.rotate = this.rotate.bind(this);
         this.default = this.default.bind(this);
         this.calc = this.calc.bind(this);
     }
@@ -129,8 +131,8 @@ export class Gate extends Component {
         else if (this.state.logic_type === GTYPE.CLOCK)this.setState({showInput: !this.state.showInput});
     }
     dragStart(e){
-        var dx = e.clientX - e.currentTarget.getBoundingClientRect().left;
-        var dy = e.clientY - e.currentTarget.getBoundingClientRect().top;
+        var dx = e.clientX - this.state.x//e.currentTarget.getBoundingClientRect().left;
+        var dy = e.clientY - this.state.y//e.currentTarget.getBoundingClientRect().top;
         var dxx = e.currentTarget.getBoundingClientRect().right-e.clientX;
         var dyy = e.currentTarget.getBoundingClientRect().bottom-e.clientY;
         if(dy<=5||dyy<=5||dx<=5||dxx<=5)return;
@@ -148,34 +150,45 @@ export class Gate extends Component {
         });
     }
     dragMid(e){
-        if(!this.state.dragging)return;
-        var lft = e.clientX - this.state.dx;
-        var top = e.clientY - this.state.dy;
-        this.setState({
-            x: lft,
-            y: top,
-        });
-        for (let i in this.state.cntIn){
-            if(this.state.cntIn[i].state.line)
-                this.state.cntIn[i].state.line.setState({to:{
-                    x:lft, 
-                    y:top+CNT_IN_POS[this.state.logic_type][i].y+CONNECTOR.h/2
-                }});
+        var stt = this.state;
+        if(!stt.dragging)return;
+        var lft = e.clientX - stt.dx;
+        var top = e.clientY - stt.dy;
+        this.setState({ x: lft, y: top });
+        for (let i in stt.cntIn){
+            let cntState = stt.cntIn[i].state;
+            if(cntState.line)
+                cntState.line.setState({ to:stt.parent.resolveRotation({...stt, x:lft, y:top}, cntState) });
         }
-        for (let inNode in this.state.cntOut){
-            var lines = this.state.cntOut[inNode].state.lines;
+        for (let inNode in stt.cntOut){
+            let cntState = stt.cntOut[inNode].state;
+            var lines = cntState.lines;
             if(!lines)continue;
-            for (let lneNo in lines){
-                lines[lneNo].setState({frm:{
-                    x:lft+DIM[this.state.logic_type].w,
-                    y:top+CNT_OUT_POS[this.state.logic_type][inNode].y+CONNECTOR.h/2
-                }});
-            }
+            for (let lneNo in lines)
+                lines[lneNo].setState({ frm:stt.parent.resolveRotation({...stt, x:lft, y:top}, cntState) });
         }
     }
     dragEnd(e){
         this.setState({dragging: false});
         this.state.parent.setState({draggingGate: null});
+    }
+    rotate(e){
+        if(!e.deltaY)return;
+        var stt = this.state;
+        var rot =(stt.rotation + 4 + e.deltaY/Math.abs(e.deltaY))%4;
+        this.setState({ rotation: rot });
+        for (let i in stt.cntIn){
+            let cntState = stt.cntIn[i].state;
+            if(cntState.line)
+                cntState.line.setState({ to:stt.parent.resolveRotation({...stt, rotation:rot}, cntState) });
+        }
+        for (let inNode in stt.cntOut){
+            let cntState = stt.cntOut[inNode].state;
+            var lines = cntState.lines;
+            if(!lines)continue;
+            for (let lneNo in lines)  
+                lines[lneNo].setState({ frm:stt.parent.resolveRotation({...stt, rotation:rot}, cntState) });
+        }
     }
     default(){
         if(this.state.logic_type!==GTYPE.SWITCH)
@@ -206,6 +219,7 @@ export class Gate extends Component {
             left: this.state.x,
             top: this.state.y,
             zIndex: this.state.parent.state.zdx.indexOf(this.state.id),
+            transform: `rotate(${90*this.state.rotation}deg)`
         }
         var imgName = NAME[this.state.logic_type];
         var dim = DIM[this.state.logic_type];
@@ -230,6 +244,7 @@ export class Gate extends Component {
             onMouseUp={this.dragEnd}
             onContextMenu={this.deleteGate}
             onDoubleClick={this.toggleState}
+            onWheel={this.rotate}
             >
                 {clock_elem}
                 {debug_elem}

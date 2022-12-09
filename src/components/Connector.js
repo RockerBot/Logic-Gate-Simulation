@@ -26,14 +26,14 @@ export class ConnectorIn extends Component {
     var stt = this.state;
     var gateSpace = stt.gateSpace;
     gateSpace.props.cssvar.setProperty('--cout','1');
-    gateSpace.drawLineEnd(stt.gate.state.x + stt.x + CONNECTOR.w/2,
-                          stt.gate.state.y + stt.y + CONNECTOR.h/2, this);
+    var xy = gateSpace.resolveRotation(stt.gate.state, stt);
+    gateSpace.drawLineEnd(xy.x, xy.y, this);
     e.preventDefault();
   }
   render() {
     var stl={
-      left: this.state.x,
-      top: this.state.y,
+      left: this.state.x - CONNECTOR.w/2,
+      top: this.state.y - CONNECTOR.h/2,
     }
     return (<div style={stl} className='Connector cin' onMouseUp={this.createLine}>
       <div className='debug-cnt debug'>{`${this.state.on} [${this.props.id}]`}</div>{/*//! delet this div */}
@@ -65,14 +65,14 @@ export class ConnectorOut extends Component {
     var stt = this.state;
     var gateSpace = stt.gateSpace;
     gateSpace.props.cssvar.setProperty('--cout','-1');
-    gateSpace.drawLineStart(stt.x + stt.gate.state.x + CONNECTOR.w/2,
-                            stt.y + stt.gate.state.y + CONNECTOR.h/2, this);
+    var xy = gateSpace.resolveRotation(stt.gate.state, stt);
+    gateSpace.drawLineStart(xy.x, xy.y, this);
     e.preventDefault();
   }
   render() {
     var stl={
-      left: this.state.x,
-      top: this.state.y,
+      left: this.state.x - CONNECTOR.w/2,
+      top: this.state.y - CONNECTOR.h/2,
     }
     return (<div style={stl} className='Connector cout' onMouseDown={this.createLine}>
       <div className='debug-cnt debug'>{`${this.state.on} [${this.props.id}]`}</div>{/*//! delet this div */}
