@@ -10,22 +10,23 @@ export class Gate extends Component {
         this.state = {
             logic_type: props.logicType,
             parent: props.parent,
-            on: false,
             id: props.id,
             x: props.x,
             y: props.y,
+            on: false,
+
             dx: 0,
             dy: 0,
             dragging: false,
+
             in: [],
             out: [],
             cntIn: {},
             cntOut: {},
+
+            prevClk: 0,
             showInput:false,
-            cps:{
-                tick:5,
-                max:5,
-            },
+            cps:{tick:5, max:5},
         };
         this.dragStart = this.dragStart.bind(this);
         this.dragMid = this.dragMid.bind(this);
@@ -70,6 +71,7 @@ export class Gate extends Component {
         var outList = [];
         var on_val = this.state.on;
         var cps = this.state.cps;
+        var pCLK = this.state.prevClk;
         if(this.state.logic_type===GTYPE.AND)outList.push(this.state.in[0] && this.state.in[1]);
         else if(this.state.logic_type===GTYPE.NAND)outList.push(!(this.state.in[0] && this.state.in[1]));
         else if(this.state.logic_type===GTYPE.OR)outList.push(this.state.in[0] || this.state.in[1]);
@@ -86,35 +88,40 @@ export class Gate extends Component {
         }
         else if(this.state.logic_type===GTYPE.SRFF){
             // Q = !CLK&&Q||CLK&&S||!R&&Q
-            outList.push(
-                (!this.state.in[2]&& this.state.out[0]) || 
-                (this.state.in[2]&&this.state.in[0]) || 
-                (!this.state.in[1]&&this.state.out[0])
-            );
-            outList.push(!this.state.out[0]);
+            let CLK = this.state.in[2]&&(this.state.in[2]^pCLK)// pos edge
+            pCLK = this.state.in[2];
+            let Q = this.state.out[0];
+            let S = this.state.in[0];
+            let R = this.state.in[1];
+            outList.push((!CLK&&Q) || (CLK&&S) || (!R&&Q));
+            outList.push(!Q);
         }else if(this.state.logic_type===GTYPE.DFF){
             //Q = !CLK&&Q||CLK&&D
-            outList.push(
-                (!this.state.in[1]&&this.state.out[0])||
-                (this.state.in[1]&&this.state.in[0])
-            );
-            outList.push(!this.state.out[0]);
+            let CLK = this.state.in[1]&&(this.state.in[1]^pCLK)// pos edge
+            pCLK = this.state.in[1];
+            let Q = this.state.out[0];
+            let D = this.state.in[0];
+            outList.push((!CLK&&Q)||(CLK&&D));
+            outList.push(!Q);
         }else if(this.state.logic_type===GTYPE.JKFF){
             //Q = !(K&&CLK)&&Q||CLK&&J&&!Q
-            outList.push(
-                (!(this.state.in[1]&&this.state.in[2])&&this.state.out[0])||
-                (  this.state.in[0]&&this.state.in[2]&&!this.state.out[0])
-            );
-            outList.push(!this.state.out[0]);
+            let CLK = this.state.in[2]&&(this.state.in[2]^pCLK)// pos edge
+            pCLK = this.state.in[2];
+            let Q = this.state.out[0];
+            let J = this.state.in[0];
+            let K = this.state.in[1];
+            outList.push((!(K&&CLK)&&Q)||(J&&CLK&&!Q));
+            outList.push(!Q);
         }else if(this.state.logic_type===GTYPE.TFF){
             //Q = !(T&&CLK)&&Q||CLK&&T&&!Q
-            outList.push(
-                (!(this.state.in[0]&&this.state.in[1])&&this.state.out[0])||
-                (  this.state.in[0]&&this.state.in[1]&&!this.state.out[0])
-            );
-            outList.push(!this.state.out[0]);
+            let CLK = this.state.in[1]&&(this.state.in[1]^pCLK)// pos edge
+            pCLK = this.state.in[1];
+            let Q = this.state.out[0];
+            let T = this.state.in[0];
+            outList.push((!(T&&CLK)&&Q)||(T&&CLK&&!Q));
+            outList.push(!Q);
         }
-        this.setState({out:outList, on:on_val, cps:cps});
+        this.setState({out:outList, on:on_val, cps:cps, prevClk:pCLK});
         // for(let i in outList)this.state.cntOut[i].setState({on: outList[i]});
     }
     toggleState(e){
