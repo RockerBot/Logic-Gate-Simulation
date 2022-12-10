@@ -175,12 +175,12 @@ export class GateSpace extends Component {
         const H = DIM[gStt.logic_type].h;
         switch(gStt.rotation){
             case 3: return {x:gStt.x + W/2 - H/2 + cntStt.y, y:gStt.y + H/2 + W/2 - cntStt.x};
-            case 2: return {x:gStt.x + W - cntStt.x, y:gStt.y + H - cntStt.y}
-            case 1: return {x:gStt.x + W/2 + H/2 - cntStt.y, y:gStt.y + H/2 - W/2 + cntStt.x}
-            default: return {x:gStt.x + cntStt.x, y:gStt.y + cntStt.y}
+            case 2: return {x:gStt.x + W - cntStt.x, y:gStt.y + H - cntStt.y};
+            case 1: return {x:gStt.x + W/2 + H/2 - cntStt.y, y:gStt.y + H/2 - W/2 + cntStt.x};
+            default: return {x:gStt.x + cntStt.x, y:gStt.y + cntStt.y};
         }
     }
-    
+
     drawLineStart(x,y, io){
         this.setState({
             ghostLine:{

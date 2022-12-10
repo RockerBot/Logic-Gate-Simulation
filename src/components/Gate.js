@@ -174,6 +174,7 @@ export class Gate extends Component {
     }
     rotate(e){
         if(!e.deltaY)return;
+        if(this.state.showInput)return;
         var stt = this.state;
         var rot =(stt.rotation + 4 + e.deltaY/Math.abs(e.deltaY))%4;
         this.setState({ rotation: rot });
@@ -217,14 +218,16 @@ export class Gate extends Component {
         e.preventDefault();
     }
     render() {
+        var imgName = NAME[this.state.logic_type];
+        var dim = DIM[this.state.logic_type];
         var style = {
             left: this.state.x,
             top: this.state.y,
+            width: dim.w,
+            height: dim.h,
             zIndex: this.state.parent.state.zdx.indexOf(this.state.id),
             transform: `rotate(${90*this.state.rotation}deg)`
         }
-        var imgName = NAME[this.state.logic_type];
-        var dim = DIM[this.state.logic_type];
         var clock_elem = null;
         var debug_elem = <div className='debug-gate debug'>{`${this.state.on} [${this.state.id}]`}{/*//! delet this div */}</div>
         if(!this.state.on)imgName = imgName.replace("ON", "OFF");
