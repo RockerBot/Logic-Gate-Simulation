@@ -10,7 +10,7 @@
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
-    /* background-color: brown; */
+    /* background-color: rgba(165, 42, 42, 0.5); */
 }
 .input{
     position: absolute;

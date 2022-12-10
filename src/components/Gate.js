@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import "../css/GateSpace.css"
 import { ConnectorIn, ConnectorOut } from './Connector';
-import { CNT_IN_POS, NAME, CNT_OUT_POS, DIM, GTYPE, INS, OUTS } from "../Constants";
+import { CNT_IN, NAME, CNT_OUT, DIM, GTYPE, INS, OUTS } from "../Constants";
 import Input from './Input';
 
 export class Gate extends Component {
@@ -179,11 +179,13 @@ export class Gate extends Component {
         this.setState({ rotation: rot });
         for (let i in stt.cntIn){
             let cntState = stt.cntIn[i].state;
+            stt.cntIn[i].setState({ facing:rot });
             if(cntState.line)
                 cntState.line.setState({ to:stt.parent.resolveRotation({...stt, rotation:rot}, cntState) });
         }
         for (let inNode in stt.cntOut){
             let cntState = stt.cntOut[inNode].state;
+            stt.cntOut[inNode].setState({ facing:rot });
             var lines = cntState.lines;
             if(!lines)continue;
             for (let lneNo in lines)  
@@ -228,7 +230,8 @@ export class Gate extends Component {
         if(!this.state.on)imgName = imgName.replace("ON", "OFF");
         if(this.state.logic_type === GTYPE.CLOCK) {
             debug_elem = <div className='debug-gate debug'>{`${this.state.on} [${this.state.id}] ${this.state.cps.tick}/${this.state.cps.max}`}{/*//! delet this div */}</div>;
-            clock_elem = <svg width={dim.w} height={dim.h} className='clock_counter'>
+            clock_elem = <svg width={dim.w} height={dim.h} className='clock_counter'
+            style={{transform: `rotate(${-90*this.state.rotation}deg)`, zIndex: 10}}>
                 <path strokeWidth={7} strokeLinecap="round" fill='none' strokeDasharray="100 100" 
                 stroke={`${this.state.cps.tick<this.state.cps.max?'cyan':'gray'}`}                
                 d={`M${dim.w/2} ${(dim.h-31.831)/2} a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831`}/>
@@ -249,13 +252,16 @@ export class Gate extends Component {
                 {clock_elem}
                 {debug_elem}
                 <img width={dim.w} height={dim.h}
+                style={{transform: `rotate(${-90*this.state.rotation*(this.state.logic_type===GTYPE.SWITCH)}deg)`}}
                 src={require(`../res/${imgName}.png`)}
                 alt={NAME[this.state.logic_type]}/>
-                {CNT_IN_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
+                {CNT_IN[this.state.logic_type].map(
+                    (l_type, i)=><ConnectorIn gate={this} x={l_type.x} y={l_type.y} key={i}
+                                    id={i} facing={l_type.facing} gateSpace={this.state.parent}/>
                 )}                
-                {CNT_OUT_POS[this.state.logic_type].map(
-                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i} id={i} gateSpace={this.state.parent}/>
+                {CNT_OUT[this.state.logic_type].map(
+                    (l_type, i)=><ConnectorOut gate={this} x={l_type.x} y={l_type.y} key={i}
+                                    id={i} facing={l_type.facing} gateSpace={this.state.parent}/>
                 )}
                 {this.state.showInput && <Input parent={this}/>}
         </div>)

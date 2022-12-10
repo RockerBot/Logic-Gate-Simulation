@@ -5,10 +5,10 @@
     position: absolute;
 }
 .cin{
-    /* background-color: blue; */
+    /* background-color: rgba(0, 0, 255, 0.5); */
 }
 .cout{
-    /* background-color: rgb(255, 0, 174); */
+    /* background-color: rgba(255, 0, 174, 0.5); */
 }
 .cin:hover{
     /* background-color: blue; */
@@ -21,7 +21,7 @@
 .Line{
     position: absolute;
     pointer-events: none;
-    /* background-color: blueviolet; */
+    /* background-color: rgba(138, 43, 226, 0.5); */
 }
 .Line>svg>path{
     pointer-events: stroke;

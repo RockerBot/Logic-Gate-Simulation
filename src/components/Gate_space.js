@@ -180,6 +180,7 @@ export class GateSpace extends Component {
             default: return {x:gStt.x + cntStt.x, y:gStt.y + cntStt.y}
         }
     }
+    
     drawLineStart(x,y, io){
         this.setState({
             ghostLine:{

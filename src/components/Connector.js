@@ -11,7 +11,8 @@ export class ConnectorIn extends Component {
       gate: props.gate,
       gateSpace: props.gateSpace,
       line: null,
-      on:false,
+      on: false,
+      facing: props.facing, //0 ->, 1 v, 2 <-, 3 ^
     }
     this.createLine = this.createLine.bind(this);
   }
@@ -51,6 +52,7 @@ export class ConnectorOut extends Component {
       gateSpace: props.gateSpace,
       lines: {},
       on: false,
+      facing: props.facing, //0 ->, 1 v, 2 <-, 3 ^
     }
     this.createLine = this.createLine.bind(this);
   }

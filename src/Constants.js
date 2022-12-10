@@ -49,108 +49,108 @@ export const DIM ={
     TFF:    {w: 100, h: 100},
     CLOCK:  {w: 70,  h: 70},
 }
-export const CNT_IN_POS ={
+export const CNT_IN ={
     AND: [
-        { x: 0, y: 20, },
-        { x: 0, y: 55, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 55, facing: 0 }
     ],
     NAND:[
-        { x: 0, y: 20, },
-        { x: 0, y: 55, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 55, facing: 0 }
     ],
     OR:[
-        { x: 0, y: 20, },
-        { x: 0, y: 40, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 40, facing: 0 }
     ],
     NOR: [
-        { x: 0, y: 20, },
-        { x: 0, y: 55, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 55, facing: 0 }
     ],
     XOR: [
-        { x: 0, y: 20, },
-        { x: 0, y: 55, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 55, facing: 0 }
     ],
     XNOR: [
-        { x: 0, y: 20, },
-        { x: 0, y: 55, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 55, facing: 0 }
     ],
     NOT: [
-        { x: 0, y: 37.5, },
+        { x: 0, y: 37.5, facing: 0 },
     ],
     BUFFER: [
-        { x: 0, y: 37.5, },
+        { x: 0, y: 37.5, facing: 0 },
     ],
     SWITCH: [],
     LED: [
-        { x: 0, y: 25, },
+        { x: 0, y: 25, facing: 0 },
     ],
     SRFF: [
-        { x: 0, y: 20, },
-        { x: 0, y: 80, },
-        { x: 0, y: 50, }
+        { x: 0, y: 20, facing: 0 },
+        { x: 0, y: 80, facing: 0 },
+        { x: 0, y: 50, facing: 0 }
     ],
     DFF: [
-        { x: 0, y: 15, },
-        { x: 0, y: 80, }
+        { x: 0, y: 15, facing: 0 },
+        { x: 0, y: 80, facing: 0 }
     ],
     JKFF: [
-        { x: 0, y: 35, },
-        { x: 0, y: 85, },
-        { x: 0, y: 60, }
+        { x: 0, y: 35, facing: 0 },
+        { x: 0, y: 85, facing: 0 },
+        { x: 0, y: 60, facing: 0 }
     ],
     TFF: [
-        { x: 0, y: 25, },
-        { x: 0, y: 75, }
+        { x: 0, y: 25, facing: 0 },
+        { x: 0, y: 75, facing: 0 }
     ],
     CLOCK: [],
 }
-export const CNT_OUT_POS ={
+export const CNT_OUT ={
     AND: [
-        { x: 150, y: 37.5, },
+        { x: 150, y: 37.5, facing: 0 },
     ],
     NAND:[
-        { x: 150, y: 37.5, }
+        { x: 150, y: 37.5, facing: 0 }
     ],
     OR:[
-        { x: 150, y: 37.5, }
+        { x: 150, y: 37.5, facing: 0 }
     ],
     NOR: [
-        { x: 150, y: 37.5, }
+        { x: 150, y: 37.5, facing: 0 }
     ],
     XOR: [
-        { x: 150, y: 37.5, }
+        { x: 150, y: 37.5, facing: 0 }
     ],
     XNOR: [
-        { x: 150, y: 37.5, }
+        { x: 150, y: 37.5, facing: 0 }
     ],
     NOT: [
-        { x: 150, y: 37.5, },
+        { x: 150, y: 37.5, facing: 0 },
     ],
     BUFFER: [
-        { x: 150, y: 37.5, },
+        { x: 150, y: 37.5, facing: 0 },
     ],
     SWITCH: [
-        { x: 50, y: 25, },
+        { x: 50, y: 25, facing: 0 },
     ],
     LED: [],
     SRFF: [
-        { x: 150, y: 20, },
-        { x: 150, y: 80, },
+        { x: 150, y: 20, facing: 0 },
+        { x: 150, y: 80, facing: 0 },
     ],
     DFF: [
-        { x: 125, y: 15, },
-        { x: 125, y: 80, }
+        { x: 125, y: 15, facing: 0 },
+        { x: 125, y: 80, facing: 0 }
     ],
     JKFF: [
-        { x: 120, y: 35, },
-        { x: 120, y: 85, },
+        { x: 120, y: 35, facing: 0 },
+        { x: 120, y: 85, facing: 0 },
     ],
     TFF: [
-        { x: 100, y: 25, },
-        { x: 100, y: 75, }
+        { x: 100, y: 25, facing: 0 },
+        { x: 100, y: 75, facing: 0 }
     ],
     CLOCK: [
-        { x: 70, y: 35, },
+        { x: 70, y: 35, facing: 0 },
     ],
 }
 export const CONNECTOR={

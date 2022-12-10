@@ -22,6 +22,7 @@ export class Line extends Component {
     this.deleteLine = this.deleteLine.bind(this);
     this.deleteLineOnly = this.deleteLineOnly.bind(this);
     this.resetLine = this.resetLine.bind(this);
+    this.direc = this.direc.bind(this);
   }
 
   resetLine() {
@@ -63,31 +64,43 @@ export class Line extends Component {
     this.state.gateSpace.setState({lines:lines});
     if(e)e.preventDefault();
   }
+  direc(facing){
+    switch(facing){
+      case 3: return { x:  0, y: -1 };
+      case 2: return { x: -1, y:  0 };
+      case 1: return { x:  0, y:  1 };
+      case 0: return { x:  1, y:  0 };
+      default:console.log("ERR facing: ", facing);
+    }
+  }
   render() {
-    var width = Math.abs(this.state.frm.x - this.state.to.x);
-    var height = Math.abs(this.state.frm.y - this.state.to.y);
-    var isDownward = (this.state.frm.y<this.state.to.y);
-    var isRightward = (this.state.frm.x<this.state.to.x);
+    var me = this.state;
+    var width = Math.abs(me.frm.x - me.to.x);
+    var height = Math.abs(me.frm.y - me.to.y);
+    var isDownward = (me.frm.y<me.to.y);
+    var isRightward = (me.frm.x<me.to.x);
+    var frm = this.direc(me.in.state.facing);
+    var to = this.direc((me.out===undefined)?0:me.out.state.facing);
     return (
       <div className='Line' onContextMenu={this.deleteLineOnly} style={{
-          width:width, 
-          height:height+7, 
-          left:(isRightward?this.state.frm.x:this.state.to.x), 
-          top:(isDownward?this.state.frm.y:this.state.to.y)-3.5,
-          zIndex:-1
-        }}><div className='debug-line debug'>{`${this.state.on} [${this.state.id}]`}</div>{/*//! delet this div */}
+          width: width * 2, 
+          height: height * 2, 
+          left: (isRightward?me.frm.x:me.to.x) - width/2, 
+          top: (isDownward?me.frm.y:me.to.y) - height/2,
+          zIndex: -1
+        }}><div className='debug-line debug'>{`${me.on} [${me.id}]`}</div>{/*//! delet this div */}
         <svg
-        width={width} 
-        height={height+7}>
+        width={width * 2} 
+        height={height * 2}>
           <path fill='none'
           strokeDasharray={this.props.dashes?"7,5":"none"}          
-          stroke={this.state.on?"cyan":"black"}
+          stroke={me.on?"cyan":"black"}
           d={`
-            M ${isRightward?0:width},${isDownward?3.5:height} 
-            C ${width/2},${isDownward?3.5:height} 
-            ${width/2},${isDownward?height:3.5} 
-            ${isRightward?width:0},${isDownward?height:3.5}
-          `} />
+          M ${width/2 + (isRightward?0:width)},                 ${height/2 + (isDownward?0:height)} 
+          C ${width/2 + (isRightward?0:width) + frm.x*width/2}, ${height/2 + (isDownward?0:height) + frm.y*height/2} 
+            ${width/2 + (isRightward?width:0) - to.x*width/2},  ${height/2 + (isDownward?height:0) - to.y*height/2} 
+            ${width/2 + (isRightward?width:0)},                 ${height/2 + (isDownward?height:0)}
+        `} />
         </svg>
       </div>
     )
