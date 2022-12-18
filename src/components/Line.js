@@ -80,7 +80,10 @@ export class Line extends Component {
     var isDownward = (me.frm.y<me.to.y);
     var isRightward = (me.frm.x<me.to.x);
     var frm = this.direc(me.in.state.facing);
-    var to = this.direc((me.out===undefined)?0:me.out.state.facing);
+    var to = this.direc(((
+      (me.out!==undefined)?me.out.state.facing
+      :( (me.in.state.facing%2)?((isDownward)?1:3):((isRightward)?0:2) )
+    )+2)%4);
     return (
       <div className='Line' onContextMenu={this.deleteLineOnly} style={{
           width: width * 2, 
@@ -98,7 +101,7 @@ export class Line extends Component {
           d={`
           M ${width/2 + (isRightward?0:width)},                 ${height/2 + (isDownward?0:height)} 
           C ${width/2 + (isRightward?0:width) + frm.x*width/2}, ${height/2 + (isDownward?0:height) + frm.y*height/2} 
-            ${width/2 + (isRightward?width:0) - to.x*width/2},  ${height/2 + (isDownward?height:0) - to.y*height/2} 
+            ${width/2 + (isRightward?width:0) + to.x*width/2},  ${height/2 + (isDownward?height:0) + to.y*height/2} 
             ${width/2 + (isRightward?width:0)},                 ${height/2 + (isDownward?height:0)}
         `} />
         </svg>
